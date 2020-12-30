@@ -1,0 +1,5 @@
+rd /s /q Display.Optimus
+rd /s /q LEDVisualizer
+rd /s /q Miracast.VirtualAudio
+rd /s /q NV3DVision
+rd /s /q NV3DVisionUSB.Driver
