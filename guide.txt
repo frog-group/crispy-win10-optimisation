@@ -1,0 +1,140 @@
+-[CREATE RESTORE POINT]-
+
+-[INSTALL UPDATES]-
+	RESTART AFTERWARDS
+
+-[GRAPHICS DRIVER RE/INSTALLATION]-
+	DOWNLOAD Display Driver Uninstaller (https://www.guru3d.com/files-details/display-driver-uninstaller-download.html)
+		RESTART INTO SAFE MODE (hold shift and click restart while holding shift until you can select more options and choose start in safe mode)
+		EXTRACT AND RUN IT
+		SELECT RELEVANT GPU OPTION
+		CLICK Clean and restart
+
+	NVIDIA DRIVER TRIMMING
+		DOWNLOAD DESIRED VERSION OF NVIDIA DRIVERS
+		UNPACK THE INSTALLER USING 7-Zip OR SIMILAR SOFTWARE
+		OPEN nvidia-driver-cleaners
+		COPY RELEVANT VERSION TO THE UNPACKED DRIVER DIRECTORY (laptop if you are on laptop, physx if you use physx, etc)
+		RUN IT
+		RUN setup.exe TO INSTALL TRIMMED DRIVERS
+		RESTART AFTERWARDS
+
+-[INSTALL GIT]-
+	DOWNLOAD IT (https://git-scm.com/download/win)
+	INSTALL IT
+	RESTART AFTERWARDS
+
+-[DOWNLOAD SOFTWARE AND REPOSITORIES]-
+	RUN clone-repositories.bat IN scripts
+	RUN download-software.bat IN software
+	DOWNLOAD ISLC (https://www.wagnardsoft.com/forums/viewtopic.php?t=1256)
+	
+-[RUN DEBLOAT SCRIPTS]-
+	DISABLE WINDOWS DEFENDER
+	EDIT AND RUN FOLDER SCRIPTS STARTING FROM win10script AND FINISHING ON Windows10Debloater
+	RUN cmd-optimise.bat
+	RUN reg-optimise.reg
+	RUN win10script AGAIN AND RE-ENABLE WINDOWS DEFENDER
+	RESTART AFTERWARDS
+
+-[DISABLE STUBBORN TASKS]-
+	OPEN REGEDIT
+	NAVIGATE TO "Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks"
+	SEARCH FOR "BackgroundUploadTask"
+	RIGHT CLICK ON HIGHLIGHTED KEY "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" (the key is different on each machine)
+	CLICK Permissions > Advanced > Disable Inheritance > Remove all inherited permissions from this object.
+	CLICK Add > Select a principal
+	TYPE Administrators
+	CLICK OK
+	CHECK Full Control
+	CLICK OK
+	CHECK Replace all child object permission entries with inheritable permission entries from this object
+	CLICK OK > Yes > OK
+	DOUBLE CLICK Triggers
+	GO TO 6TH ROW 3RD COLUMN & REPLACE C0 WITH 00
+	CLICK OK
+	REPEAT FROM BEGINNING INSTEAD SEARCHING FOR Metadata Refresh AND IntegrityCheck
+
+-[CONFIGURE MSCONFIG]-
+	PRESS WINDOWS KEY
+	TYPE msconfig
+	PRESS ENTER
+	CLICK Boot > Advanced options...
+	CHECK Number of processors
+	SELECT HIGHEST NUMBER
+	CLICK OK
+	CHECK No GUI boot
+	SET Timeout TO 5 SECONDS (3 FOR SSD)
+	CLICK APPLY
+	CLOSE WINDOW
+	RESTART AFTERWARDS
+
+-[ENABLE HW-ACCELERATED GPU SCHEDULING]-
+	PRESS WINDOWS KEY
+	TYPE gpu settings
+	PRESS ENTER
+	TURN Hardware-accelerated GPU scheduling ON
+
+-[TASK SCHEDULER CONFIGURE]-
+	PRESS WINDOWS KEY
+	TYPE tasksch
+	PRESS ENTER
+
+-[DEVICE MANAGER CONFIGURE]-
+	PRESS WINDOWS KEY
+	TYPE device manager
+	PRESS ENTER
+	EXPAND Audio, Video and Gamecontrollers
+	RIGHT CLICK DISABLE NVIDIA High Definition Audio & NVIDIA Virtual Audio Device
+
+-[NETWORK ADAPTERS CONFIGURE]-
+	RIGHT CLICK NETWORK ICON IN TRAY
+	CLICK Open Network & Internet settings > Change adapter options
+	DISABLE UNUSED ADAPTERS
+	RIGHT CLICK ON USED ADAPTER
+	UNCHECK UNUSED INTERFACES
+	CLICK Apply
+	REPEAT FOR OTHER USED ADAPTERS
+
+-[CONFIGURE SERVICES]-
+	PRESS WINDOWS KEY
+	TYPE services.msc
+	PRESS ENTER
+	DISABLE UNUSED SERVICES
+	SET OTHER SERVICES TO START MANUALLY
+
+-[QuickCpu SETUP]-
+	EXTRACT QuickCpu64
+	INSTALL IT
+	RUN IT
+	CLICK Options > CPU set maximum performance > Accept > OK > Apply > Close
+
+-[TCPOptimiser]-
+	RUN TCPOptimizer AS ADMIN
+	INPUT MAXIMUM INTERNET SPEED USING SLIDER
+	CLICK Optimal > Apply changes > OK > OK >Exit
+
+-[ISLC]-
+	COPY ISLC.exe TO ITS OWN FOLDER ON LOCAL DISK
+	RUN IT
+	CHECK Start ISLC minimized and auto-Start monitoring.
+	CHECK Launch ISLC on user logon. (TaskScheduler)
+	CHANGE Free memory is lower than VALUE TO HALF OF YOUR "Total system memory" VALUE
+	CHECK Enable custom timer resolution *
+	CHANGE Wanted timer resolution VALUE TO 0.50
+	CHANGE ISLC Polling Rate VALUE TO 500
+	CLICK Purge Standby List > Start > Minimize (will go to tray)
+
+-[MSI UTIL]-
+	EXTRACT MSI UTIL
+	RUN IT
+	CHECK ALL BOXES THAT HAVE MSI COMPATIBILITY EXCEPT ANYTHING WITH AUDIO IN THE NAME AND SOUND CARDS
+
+-[SETTINGS CONFIGURATION]-
+CONFIGURE SETTINGS
+	CONFIGURE WINDOWS SETTINGS
+	CONFIGURE AMD Radeon Settings
+	CONFIGURE NVIDIA Control Panel
+
+-[FINISHED]-
+	RESTART PC
