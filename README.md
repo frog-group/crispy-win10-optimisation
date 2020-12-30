@@ -2,7 +2,7 @@
 Collection of windows 10 optimisations including other repositories
 
 ## About
-This is my collection of windows 10 optimisation scripts & guides that includes a master guide. Requires Git for the download scripts to function correctly (link is in guide.txt)
+This is my collection of windows 10 optimisation scripts & guides that includes a master guide. Requires Git for the download scripts to function correctly (link is in guide.txt).
 The guide.txt contains different steps with a guide on how to do them. You can do any of the steps you like but I recommend doing them in order from top to bottom.
 
 ## Credits to:
