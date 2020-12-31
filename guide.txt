@@ -22,7 +22,7 @@
 -[INSTALL GIT]-
 	DOWNLOAD IT (https://git-scm.com/download/win)
 	INSTALL IT
-	RESTART AFTERWARDS
+	RESTART AFTERWARDS IF PROMPTED
 
 -[DOWNLOAD SOFTWARE AND REPOSITORIES]-
 	RUN clone-repositories.bat IN scripts
