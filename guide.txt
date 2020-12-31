@@ -3,10 +3,14 @@
 -[INSTALL UPDATES]-
 	RESTART AFTERWARDS
 
+-[DOWNLOAD SOFTWARE]-
+	RUN download-software.bat IN software
+
 -[GRAPHICS DRIVER RE/INSTALLATION]-
-	DOWNLOAD Display Driver Uninstaller (https://www.guru3d.com/files-details/display-driver-uninstaller-download.html)
+	USE DDU TO CLEAN DRIVERS (YOU CAN SKIP THIS PART IF YOU LIKE)
 		RESTART INTO SAFE MODE (hold shift and click restart while holding shift until you can select more options and choose start in safe mode)
-		EXTRACT AND RUN IT
+		RUN THE SELF-EXTRACTING ARCHIVE
+		RUN DDU
 		SELECT RELEVANT GPU OPTION
 		CLICK Clean and restart
 
@@ -22,12 +26,9 @@
 -[INSTALL GIT]-
 	DOWNLOAD IT (https://git-scm.com/download/win)
 	INSTALL IT
-	RESTART AFTERWARDS IF PROMPTED
 
--[DOWNLOAD SOFTWARE AND REPOSITORIES]-
+-[CLONE REPOSITORIES]-
 	RUN clone-repositories.bat IN scripts
-	RUN download-software.bat IN software
-	DOWNLOAD ISLC (https://www.wagnardsoft.com/forums/viewtopic.php?t=1256)
 	
 -[RUN DEBLOAT SCRIPTS]-
 	DISABLE WINDOWS DEFENDER
