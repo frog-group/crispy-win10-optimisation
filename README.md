@@ -15,7 +15,7 @@ Daksh777 for [windows10-debloat](https://github.com/Daksh777/windows10-debloat).
 Sycnex for [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater).  
 [Wagnardsoft](https://www.wagnardsoft.com/forums/) for ISLC and DDU.  
 SpeedGuide.net for [TCPOptimizer](https://www.speedguide.net/downloads.php).  
-unknown for MSI_Util_v3.exe  
+[mbk1969](https://forums.guru3d.com/members/mbk1969.247876/) (I think?) for MSI_Util_v3.exe  
 CoderBag for [QuickCpu](https://coderbag.com/product/quickcpu).
   
 And all those that are credited in those repositories/softwares.

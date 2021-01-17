@@ -4,7 +4,7 @@
 	RESTART AFTERWARDS
 
 -[DOWNLOAD SOFTWARE]-
-	RUN download-software.bat IN software
+	RUN download-requirements.ps1
 
 -[GRAPHICS DRIVER RE/INSTALLATION]-
 	USE DDU TO CLEAN DRIVERS (YOU CAN SKIP THIS PART IF YOU LIKE)
@@ -22,13 +22,6 @@
 		RUN IT
 		RUN setup.exe TO INSTALL TRIMMED DRIVERS
 		RESTART AFTERWARDS
-
--[INSTALL GIT]-
-	DOWNLOAD IT (https://git-scm.com/download/win)
-	INSTALL IT
-
--[CLONE REPOSITORIES]-
-	RUN clone-repositories.bat IN scripts
 	
 -[RUN DEBLOAT SCRIPTS]-
 	DISABLE WINDOWS DEFENDER
