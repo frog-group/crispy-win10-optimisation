@@ -63,6 +63,10 @@ if(![System.IO.File]::Exists("Windows10Debloater")){
 }
 git clone https://github.com/Sycnex/Windows10Debloater
 
+# unblock scripts and set execution policy
+Set-ExecutionPolicy Unrestricted
+ls -Recurse *.ps*1 | Unblock-File
+
 # move back to root then software dir
 cd ..
 cd software
