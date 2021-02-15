@@ -1,5 +1,5 @@
 # crispy-win10-optimisation
-Collection of windows 10 optimisations including other repositories
+Collection of all windows 10 optimisations I know of.
 
 ## About
 This is my collection of windows 10 optimisation scripts & guides that includes a master guide. Requires Git for the download scripts to function correctly (link is in guide.txt).
@@ -11,11 +11,12 @@ cooper-lockrey branch will probably be more up to date and should still work fin
 
 ## Credits to:
 ChrisTitusTech for [win10script](https://github.com/ChrisTitusTech/win10script).  
-Daksh777 for [windows10-debloat](https://github.com/Daksh777/windows10-debloat).  
+W4RH4WK for [Debloat-Windows-10](https://github.com/W4RH4WK/Debloat-Windows-10).  
 Sycnex for [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater).  
 [Wagnardsoft](https://www.wagnardsoft.com/forums/) for ISLC and DDU.  
 SpeedGuide.net for [TCPOptimizer](https://www.speedguide.net/downloads.php).  
 [mbk1969](https://forums.guru3d.com/members/mbk1969.247876/) (I think?) for MSI_Util_v3.exe  
-CoderBag for [QuickCpu](https://coderbag.com/product/quickcpu).
-  
-And all those that are credited in those repositories/softwares.
+CoderBag for [QuickCpu](https://coderbag.com/product/quickcpu).  
+builtbybel for [Privatezilla](https://github.com/builtbybel/privatezilla).  
+
+And all those that are credited in above repositories/softwares.
