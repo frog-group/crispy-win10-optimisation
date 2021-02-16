@@ -147,6 +147,14 @@ Write-Host 'Extracting...'
 Expand-Archive -Path 'privatezilla.zip' -DestinationPath 'privatezilla'
 Remove-Item -Path 'privatezilla.zip'
 
+# MSI util
+Expand-Archive -Path 'MSI_util_v3.zip' -DestinationPath 'MSI_util_v3'
+Remove-Item -Path "MSI_util_v3.zip"
+
+# NVSlimmer
+Expand-Archive -Path 'NVSlimmer_v0.11.zip' -DestinationPath 'NVSlimmer_v0.11'
+Remove-Item -Path "NVSlimmer_v0.11.zip"
+
 # cleanup
 cd ..
 Write-Host 'Work done! Cleaning up...'
