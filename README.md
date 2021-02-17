@@ -1,4 +1,4 @@
-# crispy-win10-optimisation
+# win10-optimisation
 Collection of all windows 10 optimisations I know of.
 
 ## About
