@@ -5,78 +5,46 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 }
 
 # install chocolatey & enable environment refresh
-Write-Host "Installing chocolatey..."
+Write-Host 'Installing chocolatey...'
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 $env:chocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
 Import-Module "$env:chocolateyInstall\helpers\chocolateyProfile.psm1"
 
 # refresh env
-Write-Host "Refreshing environment..."
 refreshenv
 
 # install git using chocolatey
-Write-Host "Installing Git..."
 choco install -y  git
 
 # refresh env
-Write-Host "Refreshing environment..."
 refreshenv
 
-# move to scripts dir
-cd scripts
-
-# begin cloning repositories
-Write-Host "Begin cloning repositories..."
-
-# repo win10script handling
-Write-Host "Checking if win10script repository already exists..."
-if(Test-Path -Path 'win10script'){
-	Write-Host "Deleting existing win10script repository..."
-	del /f /s /q win10script 1>nul
-	rmdir /s /q win10script
+#define useful dicts, arrays
+# FORMAT:
+#   'USER'     =   'REPOSITORY'
+$gitRepos = @{
+    'ChrisTitusTech' = 'win10script'
+    'Sycnex' = 'Windows10Debloater'
+    'W4RH4WK' = 'Debloat-Windows-10'
 }
-git clone https://github.com/ChrisTitusTech/win10script
 
-Write-Host "Checking if Windows10Debloater repository already exists..."
-if(Test-Path -Path 'Windows10Debloater'){
-	Write-Host "Deleting existing Windows10Debloater repository..."
-	del /f /s /q Windows10Debloater 1>nul
-	rmdir /s /q Windows10Debloater
+#FORMAT:
+#   'OutFile'           =   'URL'
+$softwareLinks = @{
+    'QuickCpuSetup64.zip' = 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip'
+    'TCPOptimizer.exe' = 'https://www.speedguide.net/files/TCPOptimizer.exe'
+    'DDU v18.0.3.6.exe' = 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.6.exe'
+    'ISLC v1.0.2.2.exe' = 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.2.exe'
+    'privatezilla.zip' = 'https://github.com/builtbybel/privatezilla/releases/download/0.43.0/privatezilla.zip'
 }
-git clone https://github.com/Sycnex/Windows10Debloater
 
-Write-Host "Checking if Debloat-Windows-10 repository already exists..."
-if(Test-Path -Path 'Debloat-Windows-10'){
-	Write-Host "Deleting existing Debloat-Windows-10 repository..."
-	del /f /s /q Debloat-Windows-10 1>nul
-	rmdir /s /q Debloat-Windows-10
-}
-git clone https://github.com/W4RH4WK/Debloat-Windows-10
+#FORMAT:
+#   'SFX NAME (OMITTING EXTENSION)'
+$sfxes = @(
+    'DDU v18.0.3.6'
+    'ISLC v1.0.2.2'
+)
 
-# move to root, unblock scripts and set execution policy
-cd ..
-Write-Host "Setting execution policy & unblocking files..."
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser
-ls -Recurse *.ps*1 | Unblock-File
-
-# move to software dir
-cd software
-
-# download software
-Write-Host "Begin downloading software..."
-Write-Host "Downloading latest QuickCpu..."
-Invoke-WebRequest 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip' -OutFile 'QuickCpuSetup64.zip'
-Write-Host "Downloading latest TCPOptimizer..."
-Invoke-WebRequest 'https://www.speedguide.net/files/TCPOptimizer.exe' -OutFile 'TCPOptimizer.exe'
-Write-Host "Downloading DDU v18.0.3.6..."
-Invoke-WebRequest 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.6.exe' -OutFile 'DDU v18.0.3.6.exe'
-Write-Host "Downloading ISLC v1.0.2.2..."
-Invoke-WebRequest 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.2.exe' -OutFile 'ISLC v1.0.2.2.exe'
-Write-Host "Downloading Privatezilla 0.43.0..."
-Invoke-WebRequest 'https://github.com/builtbybel/privatezilla/releases/download/0.43.0/privatezilla.zip' -OutFile 'privatezilla.zip'
-
-# cleanup
-Write-Host "Work done! Cleaning up..."
 # define useful funcs
 function Remove-Choco {
 	Remove-Item -Recurse -Force "$env:ChocolateyInstall"
@@ -91,30 +59,109 @@ function Remove-Git {
 	choco uninstall -y git
 }
 
-# get user input
-$title = "Cleanup Options"
-$message = "Do you wish to remove Chocolatey and/or Git? If you don't know then select Chocolatey."
+# move to scripts dir
+Write-Host 'Moving to scripts dir...'
+cd scripts
 
-$choco = New-Object System.Management.Automation.Host.ChoiceDescription "&Chocolatey"
-$git = New-Object System.Management.Automation.Host.ChoiceDescription "&Git"
-$none = New-Object System.Management.Automation.Host.ChoiceDescription "&No"
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($choco, $git, $none)
+# delet existing folders(repos)
+Write-Host 'Deleting old repo folders...'
+Get-ChildItem -Directory | Remove-Item -Recurse -Force
 
-$result = $host.ui.PromptForChoice($title, $message, $options, 0) 
+# clone repos loop
+Write-Host 'Begin cloning repositories...'
+foreach ($repo in $gitRepos.GetEnumerator()) {
+    $link = -join('https://github.com/',$repo.Name,'/',$repo.Value)
+    git clone $link
+}
 
-switch ($result)
+# unblock scripts, move to root
+Write-Host 'Unblocking files...'
+ls -Recurse *.ps*1 | Unblock-File
+Write-Host 'Moving to root dir...'
+cd ..
+
+# move to software dir
+Write-Host 'Moving to software dir...'
+cd software
+
+# download software loop
+Write-Host 'Begin downloading software...'
+foreach ($url in $softwareLinks.GetEnumerator()) {
+    $downloadText = -join ('Downloading ',$url.Name,'...')
+    Write-Host $downloadText
+    Invoke-WebRequest $url.Value -OutFile $url.Name
+}
+
+#clear prev archives
+Write-Host 'Deleting old archive folders...'
+Get-ChildItem -Directory | Remove-Item -Recurse -Force
+
+# Extract archives loop
+Write-Host 'Begin extracting archives...'
+$zips = Get-ChildItem *.zip
+foreach ($zip in $zips) {
+    $text = -join('Extracting ',$zip,'...')
+    Write-Host $text
+    Expand-Archive -Path $zip
+}
+
+#extract 7z sfx archives
+Write-Host 'Begin extracting SFX archives...'
+foreach ($sfx in $sfxes) {
+    $sfxExe = -join('"',$sfx,'.exe"')
+    $sfxDir = -join('"',$sfx,'"')
+    Write-Host "Extracting $sfx.exe..."
+    Invoke-Expression ".\$sfxExe -y -gm2 -InstallPath=$sfxDir"
+}
+
+# remove ssd script if no ssd
+Write-Host 'Moving to root dir...'
+cd ..
+Write-Host 'Moving to scripts dir....'
+cd scripts
+
+$ssdTitle = 'SSD Options'
+$ssdMessage = "Do you use a SSD (Solid-State Drive)? If you don't know, select No."
+$ssdYes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes"
+$ssdNo = New-Object System.Management.Automation.Host.ChoiceDescription "&No"
+$ssdOptions = [System.Management.Automation.Host.ChoiceDescription[]]($ssdYes, $ssdNo)
+$ssdResult = $host.ui.PromptForChoice($ssdTitle, $ssdMessage, $ssdOptions, 1) 
+switch ($ssdResult)
 {
     0 {
+		Write-Host 'SSD selected...'
+	}
+    1 {
+		Write-Host 'NOT SSD selected...'
+		Remove-Item -Path 'Debloat-Windows-10\utils\ssd-tune.ps1'
+	}
+}
+
+# choco git cleanup choices
+$cleanupTitle = 'Chocolatey/Git Cleanup Options'
+$cleanupMessage = "Do you wish to remove Chocolatey and/or Git? If you don't know then select Chocolatey."
+$cleanupChoco = New-Object System.Management.Automation.Host.ChoiceDescription "&Chocolatey"
+$cleanupGit = New-Object System.Management.Automation.Host.ChoiceDescription "&Git"
+$cleanupNone = New-Object System.Management.Automation.Host.ChoiceDescription "&No"
+$cleanupOptions = [System.Management.Automation.Host.ChoiceDescription[]]($cleanupChoco, $cleanupGit, $cleanupNone)
+$cleanupResult = $host.ui.PromptForChoice($cleanupTitle, $cleanupMessage, $cleanupOptions, 0) 
+switch ($cleanupResult)
+{
+    0 {
+		Write-Host 'Removing Git...'
 		Remove-Git
+		Write-Host 'Removing Chocolatey...'
 	    Remove-Choco
 	}
     1 {
+		Write-Host 'Removing Git...'
 		Remove-Git
 	}
     2 {
-		"Not removing anything."
+		'Not removing anything.'
 	}
 }
 
 # exit
+Write-Host 'Exiting...'
 exit
