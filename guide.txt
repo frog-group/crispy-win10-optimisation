@@ -45,7 +45,8 @@
 		CLICK Next
 		CHECK Disable Installer Telemetry & Advertising > Perform a clean installation > Install NVIDIA Control Panel App > 
 		> Show Expert Tweaks > Disable Driver Telemetry > Enable Message Signaled Interrupts
-		Click Next
+		CLICK Next > Install
+		FOLLOW PROMPTS
 	RESTART IF PROMPTED
 
 -[PRIVATEZILLA]-
