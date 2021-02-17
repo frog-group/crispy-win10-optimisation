@@ -17,7 +17,7 @@ $utilsExclude = @(
 )
 # run win10script first time
 Write-Host 'Running first script...'
-Write-Host '[INFO] At this stage, you should run "Essential Tweaks", "Action Center", "Background Apps", "Cortana", "OneDrive"(MAKE SURE YOU HAVE NO ONEDRIVE DOCUMENTS -- THEY WILL BE DELETED, "Visual FX", "Windows Search" & "Security Updates Only". At this stage DO NOT run "High" under "Security". You can run the others at your discretion. You may want to run "Dark Mode". Close the window when you are finished.'
+Write-Host '[INFO] At this stage, you should run "Essential Tweaks", "Action Center", "Background Apps", "Cortana", "OneDrive"(CHECK IF YOU HAVE ONEDRIVE DOCUMENTS ON YOUR PC -- THEY WILL BE DELETED SO BACK THEM UP FIRST), "Visual FX", "Windows Search" & "Security Updates Only". At this stage DO NOT run "High" under "Security". You can run the others at your discretion. You may want to run "Dark Mode". Close the window when you are finished.'
 .\win10script\win10debloat.ps1
 
 # run Windows10Debloater once
