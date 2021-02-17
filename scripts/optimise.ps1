@@ -53,3 +53,12 @@ foreach ($reg in $regToRun) {
 Write-Host 'Run scripts from this repo...'
 .\cmd-optimiser.bat
 reg import reg-optimise.reg
+
+# run win10script second time
+Write-Host 'Running final script...'
+Write-Host '[INFO] Now, simply click "High" under "Security" and you are done.'
+.\win10script\win10debloat.ps1
+
+#restart pc
+Write-Host 'Restarting PC...'
+Restart-Computer
