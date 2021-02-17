@@ -18,6 +18,6 @@ SpeedGuide.net for [TCPOptimizer](https://www.speedguide.net/downloads.php).
 [mbk1969](https://forums.guru3d.com/members/mbk1969.247876/) (I think?) for MSI_Util_v3.exe  
 CoderBag for [QuickCpu](https://coderbag.com/product/quickcpu).  
 builtbybel for [Privatezilla](https://github.com/builtbybel/privatezilla).  
-[uKER](https://forums.guru3d.com/members/uker.96766/) for NVSlimmer.
+[TechPowerUp](https://www.techpowerup.com/) for NVCleanInstall.
 
 And all those that are credited in above repositories/softwares.
