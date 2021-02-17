@@ -11,67 +11,117 @@ $env:chocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
 Import-Module "$env:chocolateyInstall\helpers\chocolateyProfile.psm1"
 
 # refresh env
-Write-Host 'Refreshing environment...'
 refreshenv
 
 # install git using chocolatey
-Write-Host 'Installing Git...'
 choco install -y  git
 
 # refresh env
-Write-Host 'Refreshing environment...'
 refreshenv
 
+#define useful dicts, arrays
+# FORMAT:
+#   'USER'     =   'REPOSITORY'
+$gitRepos = @{
+    'ChrisTitusTech' = 'win10script'
+    'Sycnex' = 'Windows10Debloater'
+    'W4RH4WK' = 'Debloat-Windows-10'
+}
+
+#FORMAT:
+#   'OutFile'           =   'URL'
+$softwareLinks = @{
+    'QuickCpuSetup64.zip' = 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip'
+    'TCPOptimizer.exe' = 'https://www.speedguide.net/files/TCPOptimizer.exe'
+    'DDU v18.0.3.6.exe' = 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.6.exe'
+    'ISLC v1.0.2.2.exe' = 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.2.exe'
+    'privatezilla.zip' = 'https://github.com/builtbybel/privatezilla/releases/download/0.43.0/privatezilla.zip'
+}
+
+#FORMAT:
+#   'SFX NAME (OMITTING EXTENSION)'
+$sfxes = @(
+    'DDU v18.0.3.6'
+    'ISLC v1.0.2.2'
+)
+
+# define useful funcs
+function Remove-Choco {
+	Remove-Item -Recurse -Force "$env:ChocolateyInstall"
+	[System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(), [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | %{[System.Environment]::SetEnvironmentVariable('PATH', $_, 'User')}
+	[System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(),  [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | %{[System.Environment]::SetEnvironmentVariable('PATH', $_, 'Machine')}
+	if ($env:ChocolateyBinRoot -ne '' -and $env:ChocolateyBinRoot -ne $null) { Remove-Item -Recurse -Force "$env:ChocolateyBinRoot" }
+	if ($env:ChocolateyToolsRoot -ne '' -and $env:ChocolateyToolsRoot -ne $null) { Remove-Item -Recurse -Force "$env:ChocolateyToolsRoot" }
+	[System.Environment]::SetEnvironmentVariable("ChocolateyBinRoot", $null, 'User')
+	[System.Environment]::SetEnvironmentVariable("ChocolateyToolsLocation", $null, 'User')
+}
+function Remove-Git {
+	choco uninstall -y git
+}
+
 # move to scripts dir
+Write-Host 'Moving to scripts dir...'
 cd scripts
 
-# begin cloning repositories
+# delet existing folders(repos)
+Write-Host 'Deleting old repo folders...'
+Get-ChildItem -Directory | Remove-Item -Recurse -Force
+
+# clone repos loop
 Write-Host 'Begin cloning repositories...'
-
-# repo win10script handling
-Write-Host 'Checking if win10script repository already exists...'
-if(Test-Path -Path 'win10script'){
-	Write-Host 'Deleting existing win10script repository...'
-	Remove-Item -Path 'win10script' -Recurse -Force
+foreach ($repo in $gitRepos.GetEnumerator()) {
+    $link = -join('https://github.com/',$repo.Name,'/',$repo.Value)
+    git clone $link
 }
-git clone https://github.com/ChrisTitusTech/win10script
-Write-Host 'Cleaning up repository...'
-Remove-Item -Path 'win10script\.git' -Recurse -Force
-Remove-Item -Path 'win10script\*.png'
-Remove-Item -Path 'win10script\README.md'
 
-Write-Host 'Checking if Windows10Debloater repository already exists...'
-if(Test-Path -Path 'Windows10Debloater'){
-	Write-Host 'Deleting existing Windows10Debloater repository...'
-	Remove-Item -Path 'Windows10Debloater' -Recurse -Force
-}
-git clone https://github.com/Sycnex/Windows10Debloater
-Write-Host 'Cleaning up repository...'
-Remove-Item -Path 'Windows10Debloater\.git' -Recurse -Force
-Remove-Item -Path 'Windows10Debloater\Individual Scripts' -Recurse
-Remove-Item -Path 'Windows10Debloater\LICENSE'
-Remove-Item -Path 'Windows10Debloater\README.md'
-Remove-Item -Path 'Windows10Debloater\Windows10SysPrepDebloater.ps1'
+# unblock scripts, move to root
+Write-Host 'Unblocking files...'
+ls -Recurse *.ps*1 | Unblock-File
+Write-Host 'Moving to root dir...'
+cd ..
 
-Write-Host 'Checking if Debloat-Windows-10 repository already exists...'
-if(Test-Path -Path 'Debloat-Windows-10'){
-	Write-Host 'Deleting existing Debloat-Windows-10 repository...'
-	Remove-Item -Path 'Debloat-Windows-10' -Recurse -Force
+# move to software dir
+Write-Host 'Moving to software dir...'
+cd software
+
+# download software loop
+Write-Host 'Begin downloading software...'
+foreach ($url in $softwareLinks.GetEnumerator()) {
+    $downloadText = -join ('Downloading ',$url.Name,'...')
+    Write-Host $downloadText
+    Invoke-WebRequest $url.Value -OutFile $url.Name
 }
-git clone https://github.com/W4RH4WK/Debloat-Windows-10
-Write-Host 'Cleaning up repository...'
-Remove-Item -Path 'Debloat-Windows-10\.git' -Recurse -Force
-Remove-Item -Path 'Debloat-Windows-10\.gitattributes'
-Remove-Item -Path 'Debloat-Windows-10\LICENSE'
-Remove-Item -Path 'Debloat-Windows-10\README.md'
-Remove-Item -Path 'Debloat-Windows-10\utils\start_vert.png'
-Remove-Item -Path 'Debloat-Windows-10\scripts\disable-windows-defender.ps1'
-Remove-Item -Path 'Debloat-Windows-10\utils\dark-theme.reg'
-Remove-Item -Path 'Debloat-Windows-10\utils\boot-advanced-startup.bat'
-Remove-Item -Path 'Debloat-Windows-10\utils\install-basic-software.ps1'
-# ssd choice
-$ssdTitle = 'SSD Choice'
-$ssdMessage = "Do you use a SSD (Solid-State Drive) as your boot drive? If you don't know, select No."
+
+#clear prev archives
+Write-Host 'Deleting old archive folders...'
+Get-ChildItem -Directory | Remove-Item -Recurse -Force
+
+# Extract archives loop
+Write-Host 'Begin extracting archives...'
+$zips = Get-ChildItem *.zip
+foreach ($zip in $zips) {
+    $text = -join('Extracting ',$zip,'...')
+    Write-Host $text
+    Expand-Archive -Path $zip
+}
+
+#extract 7z sfx archives
+Write-Host 'Begin extracting SFX archives...'
+foreach ($sfx in $sfxes) {
+    $sfxExe = -join('"',$sfx,'.exe"')
+    $sfxDir = -join('"',$sfx,'"')
+    Write-Host "Extracting $sfx.exe..."
+    Invoke-Expression ".\$sfxExe -y -gm2 -InstallPath=$sfxDir"
+}
+
+# remove ssd script if no ssd
+Write-Host 'Moving to root dir...'
+cd ..
+Write-Host 'Moving to scripts dir....'
+cd scripts
+
+$ssdTitle = 'SSD Options'
+$ssdMessage = "Do you use a SSD (Solid-State Drive)? If you don't know, select No."
 $ssdYes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes"
 $ssdNo = New-Object System.Management.Automation.Host.ChoiceDescription "&No"
 $ssdOptions = [System.Management.Automation.Host.ChoiceDescription[]]($ssdYes, $ssdNo)
@@ -87,95 +137,8 @@ switch ($ssdResult)
 	}
 }
 
-# unblock scripts, move to root
-Write-Host 'Unblocking files...'
-ls -Recurse *.ps*1 | Unblock-File
-cd ..
-
-# move to software dir
-cd software
-
-# download software
-# QuickCpu
-Write-Host 'Begin downloading software...'
-Write-Host 'Downloading latest QuickCpu...'
-Invoke-WebRequest 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip' -OutFile 'QuickCpuSetup64.zip'
-Write-Host 'Checking if QuickCpuSetup64 folder already exists...'
-if(Test-Path -Path 'QuickCpuSetup64'){
-	Write-Host 'Deleting existing QuickCpuSetup64 folder...'
-	Remove-Item -Path 'QuickCpuSetup64' -Recurse -Force
-}
-Write-Host 'Extracting...'
-Expand-Archive -Path 'QuickCpuSetup64.zip' -DestinationPath 'QuickCpuSetup64'
-Remove-Item -Path 'QuickCpuSetup64.zip'
-
-# TCPOptimizer
-Write-Host 'Downloading latest TCPOptimizer...'
-Invoke-WebRequest 'https://www.speedguide.net/files/TCPOptimizer.exe' -OutFile 'TCPOptimizer.exe'
-
-# DDU
-Write-Host 'Downloading DDU v18.0.3.6...'
-Invoke-WebRequest 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.6.exe' -OutFile 'DDU v18.0.3.6.exe'
-Write-Host 'Checking if DDU v18.0.3.6 folder already exists...'
-if(Test-Path -Path 'DDU v18.0.3.6'){
-	Write-Host 'Deleting existing DDU v18.0.3.6 folder...'
-	Remove-Item -Path 'DDU v18.0.3.6' -Recurse -Force
-}
-Write-Host 'Extracting...'
-.\'DDU v18.0.3.6.exe' -y -gm2 -InstallPath='DDU v18.0.3.6'
-
-# ISLC
-Write-Host 'Downloading ISLC v1.0.2.2...'
-Invoke-WebRequest 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.2.exe' -OutFile 'ISLC v1.0.2.2.exe'
-Write-Host 'Checking if ISLC v1.0.2.2 folder already exists...'
-if(Test-Path -Path 'ISLC v1.0.2.2'){
-	Write-Host 'Deleting existing ISLC v1.0.2.2 folder...'
-	Remove-Item -Path 'ISLC v1.0.2.2' -Recurse -Force
-}
-Write-Host 'Extracting...'
-.\'ISLC v1.0.2.2.exe' -y -gm2 -InstallPath='ISLC v1.0.2.2'
-
-# Privatezilla
-Write-Host 'Downloading Privatezilla 0.43.0...'
-Invoke-WebRequest 'https://github.com/builtbybel/privatezilla/releases/download/0.43.0/privatezilla.zip' -OutFile 'privatezilla.zip'
-Write-Host 'Checking if privatezilla folder already exists...'
-if(Test-Path -Path 'privatezilla'){
-	Write-Host 'Deleting existing privatezilla folder...'
-	Remove-Item -Path 'privatezilla' -Recurse -Force
-}
-Write-Host 'Extracting...'
-Expand-Archive -Path 'privatezilla.zip' -DestinationPath 'privatezilla'
-Remove-Item -Path 'privatezilla.zip'
-
-# MSI util
-Expand-Archive -Path 'MSI_util_v3.zip' -DestinationPath 'MSI_util_v3'
-Remove-Item -Path "MSI_util_v3.zip"
-
-# NVSlimmer
-Expand-Archive -Path 'NVSlimmer_v0.11.zip' -DestinationPath 'NVSlimmer_v0.11'
-Remove-Item -Path "NVSlimmer_v0.11.zip"
-
-# cleanup
-cd ..
-Write-Host 'Work done! Cleaning up...'
-# define useful funcs
-function Remove-Choco {
-	Remove-Item -Recurse -Force "$env:ChocolateyInstall"
-	[System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(), [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | %{[System.Environment]::SetEnvironmentVariable('PATH', $_, 'User')}
-	[System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(),  [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | %{[System.Environment]::SetEnvironmentVariable('PATH', $_, 'Machine')}
-	if ($env:ChocolateyBinRoot -ne '' -and $env:ChocolateyBinRoot -ne $null) { Remove-Item -Recurse -Force "$env:ChocolateyBinRoot" }
-	if ($env:ChocolateyToolsRoot -ne '' -and $env:ChocolateyToolsRoot -ne $null) { Remove-Item -Recurse -Force "$env:ChocolateyToolsRoot" }
-	[System.Environment]::SetEnvironmentVariable("ChocolateyBinRoot", $null, 'User')
-	[System.Environment]::SetEnvironmentVariable("ChocolateyToolsLocation", $null, 'User')
-}
-function Remove-Git {
-	choco uninstall -y git
-}
-Remove-Item -Path "software\ISLC v1.0.2.2.exe"
-Remove-Item -Path "software\DDU v18.0.3.6.exe"
-
-# cleanup choice
-$cleanupTitle = 'Cleanup Options'
+# choco git cleanup choices
+$cleanupTitle = 'Chocolatey/Git Cleanup Options'
 $cleanupMessage = "Do you wish to remove Chocolatey and/or Git? If you don't know then select Chocolatey."
 $cleanupChoco = New-Object System.Management.Automation.Host.ChoiceDescription "&Chocolatey"
 $cleanupGit = New-Object System.Management.Automation.Host.ChoiceDescription "&Git"
