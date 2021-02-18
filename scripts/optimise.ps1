@@ -15,6 +15,12 @@ $utilsExclude = @(
     'install-basic-software.ps1'
     'start_vert.png'
 )
+
+#run scripts from this repo
+Write-Host 'Run scripts from this repo...'
+.\cmd-optimiser.bat
+reg import reg-optimise.reg
+
 # run win10script first time
 Write-Host 'Running first script...'
 Write-Host '[INFO] At this stage, you should run "Essential Tweaks", "Action Center", "Background Apps", "Cortana", "OneDrive"(CHECK IF YOU HAVE ONEDRIVE DOCUMENTS ON YOUR PC -- THEY WILL BE DELETED SO BACK THEM UP FIRST), "Visual FX", "Windows Search" & "Security Updates Only". At this stage DO NOT run "High" under "Security". You can run the others at your discretion. You may want to run "Dark Mode". Close the window when you are finished.'
@@ -48,11 +54,6 @@ foreach ($reg in $regToRun) {
     Write-Host $regText
     Invoke-Command {reg import $reg}
 }
-
-#run scripts from this repo
-Write-Host 'Run scripts from this repo...'
-.\cmd-optimiser.bat
-reg import reg-optimise.reg
 
 # run win10script second time
 Write-Host 'Running final script...'
