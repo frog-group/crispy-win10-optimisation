@@ -61,5 +61,6 @@ Write-Host '[INFO] Now, simply click "High" under "Security" and you are done.'
 .\win10script\win10debloat.ps1
 
 #restart pc
-Write-Host 'Restarting PC...'
+Write-Host 'Restarting PC after 15 seconds...'
+Start-Sleep -s 15
 Restart-Computer
