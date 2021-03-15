@@ -33,7 +33,7 @@ $gitRepos = @{
 $softwareLinks = @{
     'QuickCpuSetup64.zip' = 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip'
     'TCPOptimizer.exe' = 'https://www.speedguide.net/files/TCPOptimizer.exe'
-    'DDU v18.0.3.6.exe' = 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.6.exe'
+    'DDU v18.0.3.7.exe' = 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.3.7.exe'
     'ISLC v1.0.2.2.exe' = 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.2.exe'
     'privatezilla.zip' = 'https://github.com/builtbybel/privatezilla/releases/download/0.43.0/privatezilla.zip'
 }
@@ -41,7 +41,7 @@ $softwareLinks = @{
 #FORMAT:
 #   'SFX NAME (OMITTING EXTENSION)'
 $sfxes = @(
-    'DDU v18.0.3.6'
+    'DDU v18.0.3.7'
     'ISLC v1.0.2.2'
 )
 
