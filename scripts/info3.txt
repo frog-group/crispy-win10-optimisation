@@ -1,0 +1,6 @@
+Now, again you should run:
+"Essential Tweaks", "Action Center", "Background Apps", "Cortana",
+"OneDrive"(CHECK IF YOU HAVE ONEDRIVE DOCUMENTS ON YOUR PC -- THEY WILL BE DELETED SO BACK THEM UP FIRST),
+"Visual FX", "Windows Search" & "Security Updates Only".
+
+This time, MAKE SURE TO RUN "High" under "Security".

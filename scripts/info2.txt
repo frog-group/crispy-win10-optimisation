@@ -1,0 +1,5 @@
+You should run:
+"Remove All Bloatware", "Disable Cortana", "Stop Edge PDF Takeover", "Uninstall OneDrive",
+"Disable Telemetry/Tasks", "Remove Bloatware Regkeys".
+
+You can run the others at your discretion. You way want to run "Unpin Tiles From Start Menu". Close the window when you are finished.

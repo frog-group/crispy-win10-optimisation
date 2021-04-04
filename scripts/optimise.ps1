@@ -23,12 +23,12 @@ reg import reg-optimise.reg
 
 # run win10script first time
 Write-Host 'Running first script...'
-Write-Host '[INFO] At this stage, you should run "Essential Tweaks", "Action Center", "Background Apps", "Cortana", "OneDrive"(CHECK IF YOU HAVE ONEDRIVE DOCUMENTS ON YOUR PC -- THEY WILL BE DELETED SO BACK THEM UP FIRST), "Visual FX", "Windows Search" & "Security Updates Only". At this stage DO NOT run "High" under "Security". You can run the others at your discretion. You may want to run "Dark Mode". Close the window when you are finished.'
+Invoke-Item info1.txt
 .\win10script\win10debloat.ps1
 
 # run Windows10Debloater once
 Write-Host 'Running second script...'
-Write-Host '[INFO] You should run "Remove All Bloatware", "Disable Cortana", "Stop Edge PDF Takeover", "Uninstall OneDrive", "Disable Telemetry/Tasks", "Remove Bloatware Regkeys". You can run the others at your discretion. You way want to run "Unpin Tiles From Start Menu". Close the window when you are finished.'
+Invoke-Item info2.txt
 .\Windows10Debloater\Windows10DebloaterGUI.ps1
 
 # run Debloat-Windows-10 scripts
@@ -57,7 +57,7 @@ foreach ($reg in $regToRun) {
 
 # run win10script second time
 Write-Host 'Running final script...'
-Write-Host '[INFO] Now, simply click "High" under "Security" and you are done.'
+Invoke-Item info3.txt
 .\win10script\win10debloat.ps1
 
 #restart pc
