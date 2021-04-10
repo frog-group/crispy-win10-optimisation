@@ -114,18 +114,6 @@
 	DISABLE UNUSED SERVICES
 	SET OTHER SERVICES TO START MANUALLY
 
--[QuickCpu SETUP]-
-	OPEN software > QuickCpuSetup64 > QuickCpuSetup-X.X.X.X-x64.msi
-	FOLLOW INSTALLER
-	ONCE INSTALLED, OPEN IT
-	CLICK Options > CPU set maximum performance > Accept > OK > Apply > Close
-
--[TCPOptimiser]-
-	OPEN software FOLDER
-	RUN TCPOptimizer.exe AS ADMIN
-	INPUT YOUR MAXIMUM INTERNET SPEED USING SLIDER
-	CLICK Optimal > Apply changes > OK > OK >Exit
-
 -[ISLC]-
 	OPEN software FOLDER
 	COPY ISLC vX.X.X.X FOLDER TO ROOT OF C:\ DRIVE
@@ -147,6 +135,18 @@
 	OPEN scripts FOLDER
 	RIGHT CLICK optimise.ps1 > Run with PowerShell
 	FOLLOW & READ PROMPTS/INFO THAT APPEARS
+
+-[QuickCpu SETUP]-
+	OPEN software > QuickCpuSetup64 > QuickCpuSetup-X.X.X.X-x64.msi
+	FOLLOW INSTALLER
+	ONCE INSTALLED, OPEN IT
+	CLICK Options > CPU set maximum performance > Accept > OK > Apply > Close
+
+-[TCPOptimiser]-
+	OPEN software FOLDER
+	RUN TCPOptimizer.exe AS ADMIN
+	INPUT YOUR MAXIMUM INTERNET SPEED USING SLIDER
+	CLICK Optimal > Apply changes > OK > OK >Exit
 
 -[MSI UTIL]-
 	OPEN software > MSI_util_v3 > MSI_util_v3.exe AS ADMIN
