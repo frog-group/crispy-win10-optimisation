@@ -41,7 +41,7 @@ $softwareLinks = @{
 #FORMAT:
 #   'SFX NAME (OMITTING EXTENSION)'
 $sfxes = @(
-    'DDU v18.0.3.7'
+    'DDU v18.0.3.8'
     'ISLC v1.0.2.2'
 )
 
