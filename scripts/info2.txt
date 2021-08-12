@@ -1,5 +1,11 @@
-You should run:
-"Remove All Bloatware", "Disable Cortana", "Stop Edge PDF Takeover", "Uninstall OneDrive",
-"Disable Telemetry/Tasks", "Remove Bloatware Regkeys".
+In the form entitled "Windows10Debloater", I recommend at least clicking:
+	REMOVE ALL BLOATWARE
+	DISABLE - under "CORTANA"
+	DISABLE - under "EDGE PDF" [UNLESS YOU USE EDGE, IN WHICH CASE DO NOT CLICK THIS]
+	UNINSTALL ONEDRIVE
+	UNPIN TILES FROM START MENU
+	DISABLE TELEMETRY/TASKS
+	REMOVE BLOATWARE REGKEYS
 
-You can run the others at your discretion. You way want to run "Unpin Tiles From Start Menu". Close the window when you are finished.
+I have not tested the .NET V3.5 install button, but I would assume it works and as such feel free to use it.
+	

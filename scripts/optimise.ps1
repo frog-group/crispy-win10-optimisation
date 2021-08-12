@@ -3,7 +3,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
     Start-Process PowerShell -Verb RunAs "-NoProfile -ExecutionPolicy Bypass -Command `"cd '$pwd'; & '$PSCommandPath';`"";
     exit;
 }
-Start-Transcript -Path optimise.ps1.log
+#Start-Transcript -Path optimise.ps1.log
 #define useful dicts, lists
 $scriptsExclude = @(
     'disable-windows-defender.ps1'
@@ -18,15 +18,10 @@ $utilsExclude = @(
 
 #run scripts from this repo
 Write-Host 'Run scripts from this repo...'
-.\cmd-optimiser.bat
-reg import reg-optimise.reg
+.\old.bat
+reg import regtweaks.reg
 
-# run win10script first time
-Write-Host 'Running first script...'
-Invoke-Item info1.txt
-.\win10script\win10debloat.ps1
-
-# run Windows10Debloater once
+# run Windows10Debloater
 Write-Host 'Running second script...'
 Invoke-Item info2.txt
 .\Windows10Debloater\Windows10DebloaterGUI.ps1
@@ -55,9 +50,9 @@ foreach ($reg in $regToRun) {
     Invoke-Command {reg import $reg}
 }
 
-# run win10script second time
+# run win10script
 Write-Host 'Running final script...'
-Invoke-Item info3.txt
+Invoke-Item info1.txt
 .\win10script\win10debloat.ps1
 
 #restart pc

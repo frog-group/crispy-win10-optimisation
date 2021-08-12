@@ -1,6 +1,12 @@
-At this stage, you should run:
-"Essential Tweaks", "Action Center", "Background Apps", "Cortana",
-"OneDrive"(CHECK IF YOU HAVE ONEDRIVE DOCUMENTS ON YOUR PC -- THEY WILL BE DELETED SO BACK THEM UP FIRST),
-"Visual FX", "Windows Search" & "Security Updates Only".
+In the form entitled "Windows 10 Debloat by Chris Titus", I recommend at least clicking:
+	Essential Tweaks
+	Disable Action Center
+	Disable Background Apps
+	Disable Cortana (Search)
+	Uninstall OneDrive [CAUTION - BACK UP ANY FILES THAT ARE CURRENTLY SAVED IN THE ONEDRIVE DIRECTORY, CAN PROBABLY RETRIEVE FROM ONLINE - UNTESTED!]
+	Basic Visual FX
+	Remove MS Store Apps [CAUTION - WILL CAUSE GAMES THAT USE XBOX LIVE TO FAIL LOGGING IN, CAN BE FIXED BY REINSTALLING IT]
+	Security Updates Only
 
-At this stage DO NOT run "High" under "Security". You can run the others at your discretion. You may want to run "Dark Mode". Close the window when you are finished.
+Feel free to enable dark/light mode as you see fit (by default on Windows 10 light mode is enabled).
+Also the app install buttons at the very left do work, you can use those if you're on a fresh install.
