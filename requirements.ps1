@@ -34,7 +34,7 @@ $softwareLinks = @{
     'QuickCpuSetup64.zip' = 'https://coderbag.com/assets/downloads/cpm/currentversion/QuickCpuSetup64.zip'
     'TCPOptimizer.exe' = 'https://www.speedguide.net/files/TCPOptimizer.exe'
     'DDU v18.0.4.3.exe' = 'https://www.wagnardsoft.com/DDU/download/DDU v18.0.4.3.exe'
-    'ISLC v1.0.2.5.exe' = 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.5.exe'
+    'ISLC v1.0.2.6.exe' = 'https://www.wagnardsoft.com/ISLC/ISLC v1.0.2.6.exe'
     'privatezilla.zip' = 'https://github.com/builtbybel/privatezilla/releases/download/0.50.0/privatezilla.zip'
 }
 
@@ -42,7 +42,7 @@ $softwareLinks = @{
 #   'SFX NAME (OMITTING EXTENSION)'
 $sfxes = @(
     'DDU v18.0.4.3'
-    'ISLC v1.0.2.5'
+    'ISLC v1.0.2.6'
 )
 
 # define useful funcs
