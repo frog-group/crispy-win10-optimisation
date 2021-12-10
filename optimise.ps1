@@ -117,87 +117,111 @@
 
 #services to set to manual
     $manualServices = @(
-            #Optional services
-            #"XblAuthManager"                #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
-            #"XblGameSave"                   #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
-            #"XboxNetApiSvc"                 #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
-            #"XboxGipSvc"                    #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
-            "BcastDVRUserService_48486de"   #For GameDVR and Game Recordings/Live Broadcasts'
-            "CaptureService_48486de"        #For optional screen capture functionality for applications that call the Windows.Graphics.Capture API. (if you dont know, disable it)' 
-            "BluetoothUserService_48486de"  #For some bluetooth features, disable at your own risk if you use bluetooth.'
-            #"StorSvc"                       #For recognition of USB storage devices, disabling prevents USB drives from being recognised!'
-            "PNRPsvc"                       #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
-            "p2psvc"                        #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
-            "p2pimsvc"                      #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
-            "BDESVC"                        #For bitlocker (if you dont know, disable it)'
-            "BthAvctpSvc"                   #For Bluetooth Audio Device or Wireless Headphones, disable prevents bluetooth audio.'
-            "FrameServer"                   #Windows Camera Frame Server. this allows multiple clients to access video frames from camera devices. can probably disable safely.'
-            "wisvc"                         #Windows Insider program (disable unless you are part of insider program)'
-            "lfsvc"                         #Geolocation Service (not necessary for location functionality)'
-            "WbioSrvc"                      #Windows Biometric Service (dont disable if you use Fingerprint reader / facial detection)'
-            #"Spooler"                       #Print spooler (queue), disabling prevents printing'
-            #safe services
-            "diagnosticshub.standardcollector.service"     # Microsoft (R) Diagnostics Hub Standard Collector Service
-            "DiagTrack"                                    # Diagnostics Tracking Service
-            "DPS"
-            "dmwappushservice"                             # WAP Push Message Routing Service (see known issues)
-            "MapsBroker"                                   # Downloaded Maps Manager
-            "NetTcpPortSharing"                            # Net.Tcp Port Sharing Service
-            "RemoteAccess"                                 # Routing and Remote Access
-            "RemoteRegistry"                               # Remote Registry
-            "SharedAccess"                                 # Internet Connection Sharing (ICS)
-            "TrkWks"                                       # Distributed Link Tracking Client
-            "WMPNetworkSvc"                                # Windows Media Player Network Sharing Service
-            "WSearch"                                      # Windows Search
-            "ndu"                                          # Windows Network Data Usage Monitor
-            "WerSvc"                                       #disables windows error reporting
-            "Fax"                                          #Disables fax
-            "fhsvc"                                        #Disables fax histroy
-            "gupdate"                                      #Disables google update
-            "gupdatem"                                     #Disable another google update
-            "stisvc"                                       #Disables Windows Image Acquisition (WIA)
-            "AJRouter"                                     #Disables (needed for AllJoyn Router Service)
-            "MSDTC"                                        # Disables Distributed Transaction Coordinator
-            "WpcMonSvc"                                    #Disables Parental Controls
-            "PhoneSvc"                                     #Disables Phone Service(Manages the telephony state on the device)
-            "PrintNotify"                                  #Disables Windows printer notifications and extentions
-            "PcaSvc"                                       #Disables Program Compatibility Assistant Service
-            "WPDBusEnum"                                   #Disables Portable Device Enumerator Service
-            "seclogon"                                     #Disables  Secondary Logon(disables other credentials only password will work)
-            "SysMain"                                      #Disables sysmain
-            "lmhosts"                                      #Disables TCP/IP NetBIOS Helper
-            "FontCache"                                    #Disables Windows font cache
-            "RetailDemo"                                   #Disables RetailDemo whic is often used when showing your device
-            "ALG"                                          # Disables Application Layer Gateway Service(Provides support for 3rd party protocol plug-ins for Internet Connection Sharing)
-            "SCardSvr"                                      #Disables Windows smart card
-            "EntAppSvc"                                     #Disables enterprise application management.
-            "Browser"                                       #Disables computer browser
-            "BthAvctpSvc"                                   #AVCTP service (This is Audio Video Control Transport Protocol service.)
-            "iphlpsvc"                                      #Disables ipv6 but most websites don't use ipv6 they use ipv4     
-            "edgeupdate"                                    # Disables one of edge update service  
-            "MicrosoftEdgeElevationService"                 # Disables one of edge  service 
-            "edgeupdatem"                                   # disbales another one of update service (disables edgeupdatem)                          
-            "SEMgrSvc"                                      #Disables Payments and NFC/SE Manager (Manages payments and Near Field Communication (NFC) based secure elements)
-            "PerfHost"                                      #Disables  remote users and 64-bit processes to query performance .
-            "cbdhsvc_48486de"                               #Disables   cbdhsvc_48486de (clipboard service it disables)
-            "WpnService"                                    #Disables WpnService (Push Notifications may not work )
-            "RtkBtManServ"                                  #Disables Realtek Bluetooth Device Manager Service
-            "QWAVE"                                         #Disables Quality Windows Audio Video Experience (audio and video might sound worse)
-            "HPAppHelperCap"
-            "HPDiagsCap"
-            "HPNetworkCap"
-            "HPSysInfoCap"
-            "HpTouchpointAnalyticsService"
-            "HvHost"                          
-            "vmickvpexchange"
-            "vmicguestinterface"
-            "vmicshutdown"
-            "vmicheartbeat"
-            "vmicvmsession"
-            "vmicrdv"
-            "vmictimesync"
-        )
-        
+        #Optional services
+        #"XblAuthManager"                #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
+        #"XblGameSave"                   #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
+        #"XboxNetApiSvc"                 #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
+        #"XboxGipSvc"                    #Xbox Live game services (do not disable if you plan on playing any MS Store games)'
+        "BcastDVRUserService_48486de"   #For GameDVR and Game Recordings/Live Broadcasts'
+        "CaptureService_48486de"        #For optional screen capture functionality for applications that call the Windows.Graphics.Capture API. (if you dont know, disable it)' 
+        "BluetoothUserService_48486de"  #For some bluetooth features, disable at your own risk if you use bluetooth.'
+        #"StorSvc"                       #For recognition of USB storage devices, disabling prevents USB drives from being recognised!'
+        "PNRPsvc"                       #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
+        "p2psvc"                        #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
+        "p2pimsvc"                      #For some peer-to-peer and collaborative applications, such as Remote Assistance. (if you dont know, disable it)'
+        "BDESVC"                        #For bitlocker (if you dont know, disable it)'
+        "BthAvctpSvc"                   #For Bluetooth Audio Device or Wireless Headphones, disable prevents bluetooth audio.'
+        "FrameServer"                   #Windows Camera Frame Server. this allows multiple clients to access video frames from camera devices. can probably disable safely.'
+        "wisvc"                         #Windows Insider program (disable unless you are part of insider program)'
+        "lfsvc"                         #Geolocation Service (not necessary for location functionality)'
+        "WbioSrvc"                      #Windows Biometric Service (dont disable if you use Fingerprint reader / facial detection)'
+        #"Spooler"                       #Print spooler (queue), disabling prevents printing'
+        #safe services
+        "diagnosticshub.standardcollector.service"     # Microsoft (R) Diagnostics Hub Standard Collector Service
+        "DiagTrack"                                    # Diagnostics Tracking Service
+        "DPS"
+        "dmwappushservice"                             # WAP Push Message Routing Service (see known issues)
+        "MapsBroker"                                   # Downloaded Maps Manager
+        "NetTcpPortSharing"                            # Net.Tcp Port Sharing Service
+        "RemoteAccess"                                 # Routing and Remote Access
+        "RemoteRegistry"                               # Remote Registry
+        "SharedAccess"                                 # Internet Connection Sharing (ICS)
+        "TrkWks"                                       # Distributed Link Tracking Client
+        "WMPNetworkSvc"                                # Windows Media Player Network Sharing Service
+        "WSearch"                                      # Windows Search
+        "ndu"                                          # Windows Network Data Usage Monitor
+        "WerSvc"                                       #disables windows error reporting
+        "Fax"                                          #Disables fax
+        "fhsvc"                                        #Disables fax histroy
+        "gupdate"                                      #Disables google update
+        "gupdatem"                                     #Disable another google update
+        "stisvc"                                       #Disables Windows Image Acquisition (WIA)
+        "AJRouter"                                     #Disables (needed for AllJoyn Router Service)
+        "MSDTC"                                        # Disables Distributed Transaction Coordinator
+        "WpcMonSvc"                                    #Disables Parental Controls
+        "PhoneSvc"                                     #Disables Phone Service(Manages the telephony state on the device)
+        "PrintNotify"                                  #Disables Windows printer notifications and extentions
+        "PcaSvc"                                       #Disables Program Compatibility Assistant Service
+        "WPDBusEnum"                                   #Disables Portable Device Enumerator Service
+        "seclogon"                                     #Disables  Secondary Logon(disables other credentials only password will work)
+        "SysMain"                                      #Disables sysmain
+        "lmhosts"                                      #Disables TCP/IP NetBIOS Helper
+        "FontCache"                                    #Disables Windows font cache
+        "RetailDemo"                                   #Disables RetailDemo whic is often used when showing your device
+        "ALG"                                          # Disables Application Layer Gateway Service(Provides support for 3rd party protocol plug-ins for Internet Connection Sharing)
+        "SCardSvr"                                      #Disables Windows smart card
+        "EntAppSvc"                                     #Disables enterprise application management.
+        "Browser"                                       #Disables computer browser
+        "BthAvctpSvc"                                   #AVCTP service (This is Audio Video Control Transport Protocol service.)
+        "iphlpsvc"                                      #Disables ipv6 but most websites don't use ipv6 they use ipv4     
+        "edgeupdate"                                    # Disables one of edge update service  
+        "MicrosoftEdgeElevationService"                 # Disables one of edge  service 
+        "edgeupdatem"                                   # disbales another one of update service (disables edgeupdatem)                          
+        "SEMgrSvc"                                      #Disables Payments and NFC/SE Manager (Manages payments and Near Field Communication (NFC) based secure elements)
+        "PerfHost"                                      #Disables  remote users and 64-bit processes to query performance .
+        "cbdhsvc_48486de"                               #Disables   cbdhsvc_48486de (clipboard service it disables)
+        "WpnService"                                    #Disables WpnService (Push Notifications may not work )
+        "RtkBtManServ"                                  #Disables Realtek Bluetooth Device Manager Service
+        "QWAVE"                                         #Disables Quality Windows Audio Video Experience (audio and video might sound worse)
+        "HPAppHelperCap"
+        "HPDiagsCap"
+        "HPNetworkCap"
+        "HPSysInfoCap"
+        "HpTouchpointAnalyticsService"
+        "HvHost"                          
+        "vmickvpexchange"
+        "vmicguestinterface"
+        "vmicshutdown"
+        "vmicheartbeat"
+        "vmicvmsession"
+        "vmicrdv"
+        "vmictimesync"
+    )
+    $disabledServices = @(
+        #XB services dont disable if ur a gamer
+        "XblAuthManager"                           # Xbox Live Auth Manager
+        "XblGameSave"                              # Xbox Live Game Save Service
+        "XboxNetApiSvc"                            # Xbox Live Networking Service
+        #safe
+        "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
+        "DiagTrack"                                # Diagnostics Tracking Service
+        "dmwappushservice"                         # WAP Push Message Routing Service (see known issues)
+        "lfsvc"                                    # Geolocation Service
+        "MapsBroker"                               # Downloaded Maps Manager
+        "NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
+        "RemoteAccess"                             # Routing and Remote Access
+        "RemoteRegistry"                           # Remote Registry
+        "SharedAccess"                             # Internet Connection Sharing (ICS)
+        "TrkWks"                                   # Distributed Link Tracking Client
+        "WbioSrvc"                                 # Windows Biometric Service (required for Fingerprint reader / facial detection)
+        "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
+        "WSearch"                                 # Windows Search
+        "ndu"                                      # Windows Network Data Usage Monitor
+        # Services which cannot be disabled
+        #"WdNisSvc"
+        #"WlanSvc"                                 # WLAN AutoConfig
+        #"wscsvc"                                  # Windows Security Center Service
+    )
 # host file telemmetry data
     $hostFile = "$env:systemroot\System32\drivers\etc\hosts"
     $domains = @(
@@ -373,7 +397,39 @@
         "s.gateway.messenger.live.com"
         "ui.skype.com"
     )
-    
+    #telemetry ips
+    $ips = @(
+        #"65.52.108.33"   # Causes problems with Microsoft Store
+        # Windows telemetry
+        "134.170.30.202"
+        "137.116.81.24"
+        "157.56.106.189"
+        "184.86.53.99"
+        "2.22.61.43"
+        "2.22.61.66"
+        "204.79.197.200"
+        "23.218.212.69"
+        "65.39.117.230"
+        "65.55.108.23"
+        "64.4.54.254"
+        # NVIDIA telemetry
+        "8.36.80.197"
+        "8.36.80.224"
+        "8.36.80.252"
+        "8.36.113.118"
+        "8.36.113.141"
+        "8.36.80.230"
+        "8.36.80.231"
+        "8.36.113.126"
+        "8.36.80.195"
+        "8.36.80.217"
+        "8.36.80.237"
+        "8.36.80.246"
+        "8.36.113.116"
+        "8.36.113.139"
+        "8.36.80.244"
+        "216.228.121.209"
+    )
 # newfolder funct
     function New-FolderForced {
         [CmdletBinding(SupportsShouldProcess = $true)]
@@ -676,9 +732,12 @@
     Set-Service "RemoteRegistry" -StartupType Disabled
 
 # set startup to manual
-    foreach ($service in $manualservices) {
-        Write-Host "Setting $service StartupType to Manual"
+    foreach ($service in $manualServices) {
         Get-Service -Name $service -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
+    }
+# set startup to disabled
+    foreach ($service in $services) {
+        Get-Service -Name $service | Set-Service -StartupType Disabled
     }
 
 # tasksch mods
@@ -719,49 +778,49 @@
 
 # other scripts
     #UNINSTALL ONEDRIVE, !!CAUTION, MAY DELETE LOCAL ONEDRIVE FILES INCLUDING YOUR DOCUMENTS FOLDER, BACK UP DOCUMENTS TO BE SAFE!!
-    Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
-    Start-Sleep -s 2
-    $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
-    If (!(Test-Path $onedrive)) {
-        $onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
-    }
-    Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
-    Start-Sleep -s 2
-    Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
-    Start-Sleep -s 2
-    Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-    Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-    Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-    Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
-    If (!(Test-Path "HKCR:")) {
-        New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
-    }
-    Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
-    Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+        Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
+        Start-Sleep -s 2
+        $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+        If (!(Test-Path $onedrive)) {
+            $onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+        }
+        Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
+        Start-Sleep -s 2
+        Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+        Start-Sleep -s 2
+        Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+        Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
+        If (!(Test-Path "HKCR:")) {
+            New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT
+        }
+        Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+        Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
     # numlock at startup
-    Add-Type -AssemblyName System.Windows.Forms
-    If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
-        $wsh = New-Object -ComObject WScript.Shell
-        $wsh.SendKeys('{NUMLOCK}')
-    }
+        Add-Type -AssemblyName System.Windows.Forms
+        If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+            $wsh = New-Object -ComObject WScript.Shell
+            $wsh.SendKeys('{NUMLOCK}')
+        }
     # search bar
-    Set-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -Value '<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  <LayoutOptions StartTileGroupCellWidth="6" />'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  <DefaultLayoutOverride>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    <StartLayoutCollection>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      <defaultlayout:StartLayout GroupCellWidth="6" />'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    </StartLayoutCollection>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  </DefaultLayoutOverride>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    <CustomTaskbarLayoutCollection>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      <defaultlayout:TaskbarLayout>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '        <taskbar:TaskbarPinList>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '          <taskbar:UWA AppUserModelID="Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" />'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '          <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\System Tools\File Explorer.lnk" />'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '        </taskbar:TaskbarPinList>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      </defaultlayout:TaskbarLayout>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    </CustomTaskbarLayoutCollection>'
-    Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '</LayoutModificationTemplate>'
-    $START_MENU_LAYOUT = @"
+        Set-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -Value '<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  <LayoutOptions StartTileGroupCellWidth="6" />'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  <DefaultLayoutOverride>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    <StartLayoutCollection>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      <defaultlayout:StartLayout GroupCellWidth="6" />'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    </StartLayoutCollection>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '  </DefaultLayoutOverride>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    <CustomTaskbarLayoutCollection>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      <defaultlayout:TaskbarLayout>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '        <taskbar:TaskbarPinList>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '          <taskbar:UWA AppUserModelID="Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" />'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '          <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\System Tools\File Explorer.lnk" />'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '        </taskbar:TaskbarPinList>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '      </defaultlayout:TaskbarLayout>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '    </CustomTaskbarLayoutCollection>'
+        Add-Content -Path 'C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\DefaultLayouts.xml' -value '</LayoutModificationTemplate>'
+        $START_MENU_LAYOUT = @"
     <LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
         <LayoutOptions StartTileGroupCellWidth="6" />
         <DefaultLayoutOverride>
@@ -773,45 +832,56 @@
 "@
     $layoutFile="C:\Windows\StartMenuLayout.xml"
     #Delete layout file if it already exists
-    If(Test-Path $layoutFile)
-    {
-        Remove-Item $layoutFile
-    }
-    #Creates the blank layout file
-    $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
-
-    $regAliases = @("HKLM", "HKCU")
-    #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
-    foreach ($regAlias in $regAliases){
-        $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
-        $keyPath = $basePath + "\Explorer"
-        IF(!(Test-Path -Path $keyPath)) {
-            New-Item -Path $basePath -Name "Explorer"
+        If(Test-Path $layoutFile)
+        {
+            Remove-Item $layoutFile
         }
-        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
-        Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
-    }
+    #Creates the blank layout file
+        $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
+
+        $regAliases = @("HKLM", "HKCU")
+    #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
+        foreach ($regAlias in $regAliases){
+            $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+            $keyPath = $basePath + "\Explorer"
+            IF(!(Test-Path -Path $keyPath)) {
+                New-Item -Path $basePath -Name "Explorer"
+            }
+            Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
+            Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
+        }
     #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
-    Stop-Process -name explorer
-    Start-Sleep -s 5
-    $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
-    Start-Sleep -s 5
+        Stop-Process -name explorer
+        Start-Sleep -s 5
+        $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+        Start-Sleep -s 5
     #Enable the ability to pin items again by disabling "LockedStartLayout"
-    foreach ($regAlias in $regAliases){
-        $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
-        $keyPath = $basePath + "\Explorer"
-        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
-    }
-    #background app access
-    Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
-        Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
-        Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
-    }
+        foreach ($regAlias in $regAliases){
+            $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+            $keyPath = $basePath + "\Explorer"
+            Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
+        }
+        #background app access
+        Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
+            Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
+            Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
+        }
     #uninstall bloatware AppX packages from list defined at top :)
-    foreach ($pkg in $appEx) {
-        Get-AppxPackage -Name $pkg | Remove-AppxPackage
-        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $pkg | Remove-AppxProvisionedPackage -Online
-    }
+        foreach ($pkg in $appEx) {
+            Get-AppxPackage -Name $pkg | Remove-AppxPackage
+            Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $pkg | Remove-AppxProvisionedPackage -Online
+        }
+    #edit hosts file
+        Write-Output "" | Out-File -Encoding ASCII -Append $hostFile
+        foreach ($domain in $domains) {
+            if (-Not (Select-String -Path $hostFile -Pattern $domain)) {
+                Write-Output "0.0.0.0 $domain" | Out-File -Encoding ASCII -Append $hostFile
+            }
+        }
+    #block telemetry ips
+        Remove-NetFirewallRule -DisplayName "Block Telemetry IPs" -ErrorAction SilentlyContinue
+        New-NetFirewallRule -DisplayName "Block Telemetry IPs" -Direction Outbound `
+        -Action Block -RemoteAddress ([string[]]$ips)
     
 # run programs
 # run oosu with christitus config
@@ -821,59 +891,4 @@
 
 
 
-#WIP TEMP STUFF TEMP STUFF TEMP STUFF TEMP STUFFTEMP STUFF TEMP STUFFTEMP STUFF TEMP STUFFTEMP STUFF TEMP STUFFTEMP STUFF TEMP STUFF
-    
 
-Write-Output "Disabling telemetry via Group Policies"
-
-
-
-# Entries related to Akamai have been reported to cause issues with Widevine
-# DRM.
-
-Write-Output "Adding telemetry domains to hosts file"
-
-Write-Output "" | Out-File -Encoding ASCII -Append $hosts_file
-foreach ($domain in $domains) {
-    if (-Not (Select-String -Path $hosts_file -Pattern $domain)) {
-        Write-Output "0.0.0.0 $domain" | Out-File -Encoding ASCII -Append $hosts_file
-    }
-}
-
-Write-Output "Adding telemetry ips to firewall"
-$ips = @(
-    # Windows telemetry
-    "134.170.30.202"
-    "137.116.81.24"
-    "157.56.106.189"
-    "184.86.53.99"
-    "2.22.61.43"
-    "2.22.61.66"
-    "204.79.197.200"
-    "23.218.212.69"
-    "65.39.117.230"
-    "65.52.108.33"   # Causes problems with Microsoft Store
-    "65.55.108.23"
-    "64.4.54.254"
-
-    # NVIDIA telemetry
-    "8.36.80.197"
-    "8.36.80.224"
-    "8.36.80.252"
-    "8.36.113.118"
-    "8.36.113.141"
-    "8.36.80.230"
-    "8.36.80.231"
-    "8.36.113.126"
-    "8.36.80.195"
-    "8.36.80.217"
-    "8.36.80.237"
-    "8.36.80.246"
-    "8.36.113.116"
-    "8.36.113.139"
-    "8.36.80.244"
-    "216.228.121.209"
-)
-Remove-NetFirewallRule -DisplayName "Block Telemetry IPs" -ErrorAction SilentlyContinue
-New-NetFirewallRule -DisplayName "Block Telemetry IPs" -Direction Outbound `
-    -Action Block -RemoteAddress ([string[]]$ips)
