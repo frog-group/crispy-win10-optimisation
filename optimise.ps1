@@ -199,9 +199,9 @@
     )
     $disabledServices = @(
         #XB services dont disable if ur a gamer
-        "XblAuthManager"                           # Xbox Live Auth Manager
-        "XblGameSave"                              # Xbox Live Game Save Service
-        "XboxNetApiSvc"                            # Xbox Live Networking Service
+        #"XblAuthManager"                           # Xbox Live Auth Manager
+        #"XblGameSave"                              # Xbox Live Game Save Service
+        #"XboxNetApiSvc"                            # Xbox Live Networking Service
         #safe
         "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
         "DiagTrack"                                # Diagnostics Tracking Service
@@ -430,6 +430,20 @@
         "8.36.80.244"
         "216.228.121.209"
     )
+#groups list for settingts
+    $setGroups = @(
+        "Accessibility"
+        "AppSync"
+        "BrowserSettings"
+        "Credentials"
+        "DesktopTheme"
+        "Language"
+        "PackageState"
+        "Personalization"
+        "StartLayout"
+        "Windows"
+    )
+
 # newfolder funct
     function New-FolderForced {
         [CmdletBinding(SupportsShouldProcess = $true)]
@@ -446,6 +460,64 @@
             }
         }
     }
+#funcs
+    function Takeown-Registry($key) {
+    # TODO does not work for all root keys yet
+    switch ($key.split('\')[0]) {
+        "HKEY_CLASSES_ROOT" {
+            $reg = [Microsoft.Win32.Registry]::ClassesRoot
+            $key = $key.substring(18)
+        }
+        "HKEY_CURRENT_USER" {
+            $reg = [Microsoft.Win32.Registry]::CurrentUser
+            $key = $key.substring(18)
+        }
+        "HKEY_LOCAL_MACHINE" {
+            $reg = [Microsoft.Win32.Registry]::LocalMachine
+            $key = $key.substring(19)
+        }
+    }
+
+    # get administraor group
+    $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
+    $admins = $admins.Translate([System.Security.Principal.NTAccount])
+
+    # set owner
+    $key = $reg.OpenSubKey($key, "ReadWriteSubTree", "TakeOwnership")
+    $acl = $key.GetAccessControl()
+    $acl.SetOwner($admins)
+    $key.SetAccessControl($acl)
+
+    # set FullControl
+    $acl = $key.GetAccessControl()
+    $rule = New-Object System.Security.AccessControl.RegistryAccessRule($admins, "FullControl", "Allow")
+    $acl.SetAccessRule($rule)
+    $key.SetAccessControl($acl)
+}
+function Takeown-File($path) {
+    takeown.exe /A /F $path
+    $acl = Get-Acl $path
+
+    # get administraor group
+    $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
+    $admins = $admins.Translate([System.Security.Principal.NTAccount])
+
+    # add NT Authority\SYSTEM
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($admins, "FullControl", "None", "None", "Allow")
+    $acl.AddAccessRule($rule)
+
+    Set-Acl -Path $path -AclObject $acl
+}
+function Takeown-Folder($path) {
+    Takeown-File $path
+    foreach ($item in Get-ChildItem $path) {
+        if (Test-Path $item -PathType Container) {
+            Takeown-Folder $item.FullName
+        } else {
+            Takeown-File $item.FullName
+        }
+    }
+}
 
 # download software loop
     Write-Host 'Begin downloading software...'
@@ -505,6 +577,18 @@
 # reg key creation
     # odd ones out
     New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+    New-FolderForced -Path "HKCU:\Printers\Defaults"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\Main"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\User\Default\SearchScopes"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter"
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Permissions\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}"
+
     If (!(Test-Path "HKU:")) {
         New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS
     }
@@ -579,6 +663,9 @@
         New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     }
     
+# reg takeown
+    Takeown-Registry("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Defender\Spynet")
+
 # reg key edit
     # odd 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0
@@ -681,7 +768,29 @@
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
-    
+    Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\Printers\Defaults" "NetID" "{00000000-0000-0000-0000-000000000000}"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC" "Enabled" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" "EnableWebContentEvaluation" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "BackupPolicy" 0x3c
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "DeviceMetadataUploaded" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "PriorLogons" 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" "AcceptedPrivacyPolicy" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" "HarvestContacts" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitInkCollection" 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitTextCollection" 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" "EnabledV9" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead" "FPEnabled" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\User\Default\SearchScopes" "ShowSearchSuggestionsGlobal" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\Main" "DoNotTrack" 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Type" "LooselyCoupled"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Value" "Deny"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "InitialAppValue" "Unspecified"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Spynet" "SpyNetReporting" 0       # write-protected even after takeown ?!
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Defender\Spynet" "SubmitSamplesConsent" 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Permissions\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" "SensorPermissionState" 0
+
 # reg key delete
     Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Recurse -ErrorAction SilentlyContinue
     Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse -ErrorAction SilentlyContinue
@@ -882,13 +991,30 @@
         Remove-NetFirewallRule -DisplayName "Block Telemetry IPs" -ErrorAction SilentlyContinue
         New-NetFirewallRule -DisplayName "Block Telemetry IPs" -Direction Outbound `
         -Action Block -RemoteAddress ([string[]]$ips)
+    #windows search
+        Set-WindowsSearchSetting -EnableWebResultsSetting $false
+    #privacy settings 
+        foreach ($group in $setGroups) {
+            New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\$group"
+            Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\$group" "Enabled" 0
+        }
+        foreach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications")) {
+            Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\" + $key.PSChildName) "Disabled" 1
+        }
+        foreach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global")) {
+            if ($key.PSChildName -EQ "LooselyCoupled") {
+                continue
+            }
+            Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Type" "InterfaceClass"
+            Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Value" "Deny"
+            Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "InitialAppValue" "Unspecified"
+        }
     
 # run programs
 # run oosu with christitus config
 ./OOSU10.exe ooshutup10.cfg /quiet
     #Write-Host "Installing Windows Media Player..."
 	#Enable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue
-
 
 
 
