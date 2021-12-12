@@ -4,11 +4,6 @@
         exit;
     }
 
-#other func
-If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
-    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force
-}
-
 #make restore point
     Enable-ComputerRestore -Drive "C:\"
     Checkpoint-Computer -Description "pre-optimisations" -RestorePointType "MODIFY_SETTINGS"
@@ -63,105 +58,101 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
     }
     # regkeys
     #make
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force
-    }
-    If (!(Test-Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting")) {
-        New-Item -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Force
-    }
-    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
-        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Force
-    }
-    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
-        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force
-    }
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
-    }
-    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
-    }
-    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings"
-    }
-    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
-        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
-    }
-    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager")) {
-        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager"
-    }
-    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-        New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Force
+    $regCreate = @(
+        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+        "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting"
+        "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+        "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings"
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"
+        "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager"
+        "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    )
+    foreach ($key in $regCreate) {
+        If (!(Test-Path $key)) {
+            New-Item -Path $key -Force
+        }
     }
     #alter
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows" -Name "CEIPEnable" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "AITEnable" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "DisableUAR" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "OemPreInstalledAppsEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEverEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "Value" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "Value" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type Dword -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "IRPStackSize" -Type DWord -Value 20
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" -Name "EnableFeeds" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "HideSCAMeetNow" -Type DWord -Value 1
+    $regModify = @(
+        @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata","PreventDeviceMetadataFromNetwork","Dword","1")
+        @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection","AllowTelemetry","Dword","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\MRT","DontOfferThroughWUAU","Dword","1")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows","CEIPEnable","Dword","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat","AITEnable","Dword","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat","DisableUAR","Dword","1")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection","AllowTelemetry","Dword","0")
+        @("HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener","Start","Dword","0")
+        @("HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger","Start","Dword","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","ContentDeliveryAllowed","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","OemPreInstalledAppsEnabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","PreInstalledAppsEnabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","PreInstalledAppsEverEnabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SilentInstalledAppsEnabled","DWord","0")
+        @("HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SubscribedContent-338387Enabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SubscribedContent-338388Enabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SubscribedContent-338389Enabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SubscribedContent-353698Enabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager","SystemPaneSuggestionsEnabled","DWord","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent","DisableWindowsConsumerFeatures","DWord","1")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo","Enabled","Dword","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost","EnableWebContentEvaluation","Dword","0")
+        @("HKCU:\Control Panel\International\User Profile","HttpAcceptLanguageOptOut","Dword","1")
+        @("HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting","Value","DWord","0")
+        @("HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots","Value","DWord","0")
+        @("HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots","value","Dword","0")
+        @("HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings","UxOption","Dword","1")
+        @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config","DODownloadMode","Dword","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced","Start_TrackDocs","Dword","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced","LaunchTo","Dword","1")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\System","EnableActivityFeed","DWord","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\System","PublishUserActivities","DWord","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\System","UploadUserActivities","DWord","0")
+        @("HKLM:\SYSTEM\Maps","AutoUpdateEnabled","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Siuf\Rules","NumberOfSIUFInPeriod","DWord","0")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection","DoNotShowFeedbackNotifications","DWord","1")
+        @("HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent","DisableTailoredExperiencesWithDiagnosticData","DWord","1")
+        @("HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo","DisabledByGroupPolicy","DWord","1")
+        @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config","DODownloadMode","DWord","1")
+        @("HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance","fAllowToGetHelp","DWord","0")
+        @("HKLM:\System\CurrentControlSet\Control\Session Manager\Power","HibernteEnabled","Dword","0")
+        @("HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings","ShowHibernateOption","Dword","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager","EnthusiastMode","DWord","1")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced","ShowTaskViewButton","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People","PeopleBand","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer","EnableAutoTray","DWord","1")
+        @("HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced","HideFileExt","DWord","0")
+        @("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced","LaunchTo","DWord","1")
+        @("HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters","IRPStackSize","DWord","20")
+        @("HKCU:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds","EnableFeeds","DWord","0")
+        @("HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds","ShellFeedsTaskbarViewMode","DWord","2")
+        @("HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer","HideSCAMeetNow","DWord","1")
+    )
+    foreach ($key in $regModify) {
+        Set-ItemProperty -Path $key[0] -Name $key[1] -Type $key[2] -Value $key[3]
+    }
     #delete key
-    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    $regDelete = @(
+        "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+    )
+    foreach ($key in $regDelete) {
+        Remove-Item-Path $key -Recurse
+    }
     #service stop
-    Stop-Service "HomeGroupProvider"
-    Stop-Service "HomeGroupListener"
-    Stop-Service "dmwappushservice"
-    Stop-Service "DiagTrack"
-    Stop-Service "SysMain"
-    #disable services
-    Set-Service "DiagTrack" -StartupType Disabled
-    Set-Service "dmwappushservice" -StartupType Disabled
-    Set-Service "HomeGroupListener" -StartupType Disabled
-    Set-Service "HomeGroupProvider" -StartupType Disabled
-    Set-Service "SysMain" -StartupType Disabled
+    $svcStop = @(
+        "HomeGroupProvider"
+        "HomeGroupListener"
+        "dmwappushservice"
+        "DiagTrack"
+        "SysMain"
+    )
+    foreach ($svc in $svcStop) {
+        Stop-Service $svc
+    }
     #manual services
-    $services = @(
+    $svcManual = @(
         "diagnosticshub.standardcollector.service"     # Microsoft (R) Diagnostics Hub Standard Collector Service
         "DiagTrack"                                    # Diagnostics Tracking Service
         "DPS"
@@ -249,8 +240,19 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
         # Services which cannot be disabled
         #"WdNisSvc"
     )
-    foreach ($service in $services) {
-        Get-Service -Name $service | Set-Service -StartupType Manual
+    foreach ($svc in $svcManual) {
+        Get-Service -Name $svc | Set-Service -StartupType Manual
+    }
+    #disable services
+    $svcDisable = @(
+        "DiagTrack"
+        "dmwappushservice"
+        "HomeGroupListener"
+        "HomeGroupProvider"
+        "SysMain"
+    )
+    foreach ($svc in $svcDisable) {
+        Get-Service -Name $svc | Set-Service -StartupType Disabled
     }
     #task man
     $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
@@ -280,35 +282,42 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
         Remove-Item "$autoLoggerDir\AutoLogger-Diagtrack-Listener.etl"
     }
     icacls $autoLoggerDir /deny SYSTEM:`(OI`)`(CI`)F
+    #remove garbage appx
+    $appxRemove = @(
+        #Wildcard zone
+        "*3DBuilder*"
+        "*Getstarted*"
+        "*WindowsAlarms*"
+        "*bing*"
+        "*people*"
+        "*WindowsPhone*"
+        "*photos*"
+        "*solit*"
+        "*WindowsSoundRecorder*"
+        "*windowscommunicationsapps*"
+        "*zune*"
+        "*WindowsCalculator*"
+        "*WindowsMaps*"
+        "*Sway*"
+        "*CommsPhone*"
+        "*ConnectivityStore*"
+        "*Microsoft.Messaging*"
+        "*Facebook*"
+        "*Twitter*"
+        "*Drawboard PDF*"
+    )
+    foreach ($appx in $appxRemove) {
+        Get-AppxPackage $appx | Remove-AppxPackage
+    }
     #OOSU
     ./OOSU10.exe ooshutup10.cfg /quiet
 
 #OPTIONAL CHANGES
     # Remove Apps
-    PowerShell -Command "Get-AppxPackage *3DBuilder* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Getstarted* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsAlarms* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsCamera* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *bing* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *MicrosoftOfficeHub* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *OneNote* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *people* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsPhone* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *photos* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *SkypeApp* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *solit* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsSoundRecorder* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *windowscommunicationsapps* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *zune* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsCalculator* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *WindowsMaps* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Sway* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *CommsPhone* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *ConnectivityStore* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Microsoft.Messaging* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Facebook* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Twitter* | Remove-AppxPackage"
-    PowerShell -Command "Get-AppxPackage *Drawboard PDF* | Remove-AppxPackage"
+        #"*SkypeApp*"
+        #"*WindowsCamera*"
+        #"*MicrosoftOfficeHub*"
+        #"*OneNote*"
     # Keep Location Tracking commented out if you want the ability to locate your device
     Write-Host "Disabling Location Tracking..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
@@ -325,30 +334,6 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
 
 ########################################################################################################################################################################################
    
-
-    
-    
-    
-
-
-
-
-
-
-Stop-Service "DiagTrack"
-
-Set-Service "DiagTrack" -StartupType Disabled
-
-
-
-
-
-    
-
-
-    
-
-
 
 
 
