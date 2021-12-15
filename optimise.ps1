@@ -306,18 +306,19 @@
         "*Twitter*"
         "*Drawboard PDF*"
     )
-    foreach ($appx in $appxRemove) {
-        Get-AppxPackage $appx | Remove-AppxPackage
-    }
+
     #OOSU
     ./OOSU10.exe ooshutup10.cfg /quiet
 
 #OPTIONAL CHANGES
     # Remove Apps
-        #"*SkypeApp*"
-        #"*WindowsCamera*"
-        #"*MicrosoftOfficeHub*"
-        #"*OneNote*"
+        #$appxRemove += "*SkypeApp*"
+        #$appxRemove += "*WindowsCamera*"
+        #$appxRemove += "*MicrosoftOfficeHub*"
+        #$appxRemove += "*OneNote*"
+        foreach ($appx in $appxRemove) {
+            Get-AppxPackage $appx | Remove-AppxPackage
+        }
     # Keep Location Tracking commented out if you want the ability to locate your device
     Write-Host "Disabling Location Tracking..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
