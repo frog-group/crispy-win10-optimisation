@@ -1,14 +1,5 @@
 # win10-optimisation
-Collection of all windows 10 optimisations I know of.
-
-## About
-This is my collection of windows 10 optimisation scripts & guides that includes a master guide.  
-The guide.txt contains different steps with a guide on how to do them. You can do any of the steps you like but I recommend doing all of them; in order from top to bottom.  
-Download the repo & follow guide.txt to do the optimisations.
-
-## Branches
-Main branch can be considered stable.  
-cooper-lockrey branch will probably be more up to date and should still work fine (unless I accidentally commit bogus changes).  
+Collection of all windows 10 optimisations I know of. Currently undergoing a major rework, this branch does not include all optimisations.
 
 ## Credits to:
 ChrisTitusTech for [win10script](https://github.com/ChrisTitusTech/win10script).  
