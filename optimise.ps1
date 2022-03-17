@@ -239,7 +239,6 @@
 
         # probably disable
         "AJRouter"                                 #Disables (needed for AllJoyn Router Service)
-        "Browser"                                  #Disables computer browser
         "CaptureService_48486de"                   #Disables optional screen capture functionality for applications that call the Windows.Graphics.Capture API.
         "cbdhsvc_48486de"                          #Disables   cbdhsvc_48486de (clipboard service it disables)
         "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
