@@ -205,6 +205,7 @@
     New-NetFirewallRule -DisplayName "win10-optimisation IPs" -Direction Outbound -Action Block -RemoteAddress ([string[]]$IPs)
 
 # services optimisation
+    # servives to disable
     $ServicesDisable = @(
         # think before disabling
         "ALG"                                      # Disables Application Layer Gateway Service(Provides support for 3rd party protocol plug-ins for Internet Connection Sharing)
@@ -215,6 +216,7 @@
         #"BrokerInfrastructure"                     #Disables Windows infrastructure service that controls which background tasks can run on the system.
         "BthAvctpSvc"                              #Disables AVCTP service (if you use  Bluetooth Audio Device or Wireless Headphones. then don't disable this)
         "FrameServer"                              #Disables Windows Camera Frame Server(this allows multiple clients to access video frames from camera devices.)
+        "InstallService"                           #WindowsStore Installer Service
         #"LicenseManager"                           #Disable LicenseManager(Windows store may not work properly)
         "p2pimsvc"                                 # Disables Peer Networking Identity Manager (Peer-to-Peer Grouping services may not function, and some applications, such as HomeGroup and Remote Assistance, may not function correctly.Discord will still work)
         "p2psvc"                                   # Disables Peer Name Resolution Protocol(nables multi-party communication using Peer-to-Peer Grouping.  If disabled, some applications, such as HomeGroup, may not function. Discord will still work)
@@ -239,6 +241,7 @@
 
         # probably disable
         "AJRouter"                                 #Disables (needed for AllJoyn Router Service)
+        "BITS"                                     #Background Intelligent Transfer Service - works fine without this
         "CaptureService_48486de"                   #Disables optional screen capture functionality for applications that call the Windows.Graphics.Capture API.
         "cbdhsvc_48486de"                          #Disables   cbdhsvc_48486de (clipboard service it disables)
         "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
@@ -252,6 +255,8 @@
         "FontCache"                                #Disables Windows font cache
         "gupdate"                                  #Disables google update
         "gupdatem"                                 #Disable another google update
+        "HomeGroupListener"                        #Home Groups service
+        "HomeGroupProvider"                        #Home Groups service
         "HPAppHelperCap"                           # HP Bloat Service
         "HPDiagsCap"                               # HP Bloat Service
         "HPNetworkCap"                             # HP Bloat Service
@@ -287,11 +292,13 @@
         "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
         "WPDBusEnum"                               #Disables Portable Device Enumerator Service
         "WpnService"                               #Disables WpnService (Push Notifications may not work )
+        "wuauserv"                                 #windows update something or other
     )
     foreach ($Service in $ServicesDisable) {
         Write-Output "Trying to disable and stop $Service"
-        Get-Service $Service | Set-Service -StartupType Disabled -PassThru | Stop-Service
+        Get-Service $Service -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled -PassThru | Stop-Service -WarningAction SilentlyContinue
     }
+    # services to set to manual
 
 # stop logging end of script
     Stop-Transcript
