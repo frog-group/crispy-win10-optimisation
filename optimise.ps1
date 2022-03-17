@@ -144,3 +144,39 @@
     foreach ($Domain in $HostsDomains) {
         "0.0.0.0 $Domain" | Add-Content -Passthru $HostsFile
     }
+
+# windows firewall
+    $IPs = @(
+        "2.22.61.43"
+        "2.22.61.66"
+        "8.36.80.195"
+        "8.36.80.197"
+        "8.36.80.217"
+        "8.36.80.224"
+        "8.36.80.230"
+        "8.36.80.231"
+        "8.36.80.237"
+        "8.36.80.244"
+        "8.36.80.246"
+        "8.36.80.252"
+        "8.36.113.116"
+        "8.36.113.118"
+        "8.36.113.126"
+        "8.36.113.139"
+        "8.36.113.141"
+        "23.218.212.69"
+        "64.4.54.254"
+        "65.39.117.23"
+        "65.39.117.230"
+        "65.52.108.33"
+        "65.55.108.23"
+        "134.170.30.202"
+        "137.116.81.24"
+        "157.56.106.189"
+        "184.86.53.99"
+        "204.79.197.200"
+        "216.228.121.209"
+    )
+    Write-Output "Adding Microsoft and NVIDIA telemetry ips to firewall"
+    Remove-NetFirewallRule -DisplayName "win10-optimisation MS-NVIDIA Telemetry IPs" -ErrorAction SilentlyContinue
+    New-NetFirewallRule -DisplayName "win10-optimisation MS-NVIDIA Telemetry IPs" -Direction Outbound -Action Block -RemoteAddress ([string[]]$IPs)
