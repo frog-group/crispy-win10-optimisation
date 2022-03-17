@@ -4,6 +4,9 @@
         exit;
     }
 
+# start logging this script (mainly for debugging)
+    Start-Transcript -Path optimise.ps1.log
+
 #custom functions
     #Replacement for 'force-mkdir' to uphold PowerShell conventions. Thanks to raydric, this function should be used instead of 'mkdir -force'. Because 'mkdir -force' doesn't always work well with registry operations.
     function New-FolderForced {
@@ -286,8 +289,10 @@
         "WPDBusEnum"                               #Disables Portable Device Enumerator Service
         "WpnService"                               #Disables WpnService (Push Notifications may not work )
     )
-
     foreach ($Service in $ServicesDisable) {
         Write-Output "Trying to disable and stop $Service"
         Get-Service $Service | Set-Service -StartupType Disabled -PassThru | Stop-Service
     }
+
+# stop logging end of script
+    Stop-Transcript
