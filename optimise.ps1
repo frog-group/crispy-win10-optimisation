@@ -4,6 +4,24 @@
         exit;
     }
 
+#custom functions
+    #Replacement for 'force-mkdir' to uphold PowerShell conventions. Thanks to raydric, this function should be used instead of 'mkdir -force'. Because 'mkdir -force' doesn't always work well with registry operations.
+    function New-FolderForced {
+        [CmdletBinding(SupportsShouldProcess = $True)]
+        param (
+		    [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+		    [string]
+            $Path
+        )
+
+        process {
+            if (-not (Test-Path $Path)) {
+                Write-Verbose "-- Creating full path to:  $Path"
+                New-Item -Path $Path -ItemType Directory -Force
+            }
+        }
+    }
+
 #make restore point
     Enable-ComputerRestore -Drive "C:\"
     Checkpoint-Computer -Description "pre-optimisations" -RestorePointType "MODIFY_SETTINGS"
@@ -180,3 +198,5 @@
     Write-Output "Adding Microsoft and NVIDIA telemetry ips to firewall"
     Remove-NetFirewallRule -DisplayName "win10-optimisation MS-NVIDIA Telemetry IPs" -ErrorAction SilentlyContinue
     New-NetFirewallRule -DisplayName "win10-optimisation MS-NVIDIA Telemetry IPs" -Direction Outbound -Action Block -RemoteAddress ([string[]]$IPs)
+
+# something 
