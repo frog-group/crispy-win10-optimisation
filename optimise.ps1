@@ -5,6 +5,7 @@
     Start-Transcript -Path "$PSScriptRoot\optimise.log"
 
 # add win security exclusion
+    Write-Host "Adding temporary exclusion to Windows Security for the script folder to prevent errors"
     Add-MpPreference -ExclusionPath $PSScriptRoot
 
 #load stuff
@@ -101,6 +102,7 @@
 
 # script cleanup
     #remove the temp exclusion for the script folder
+    Write-Host "Removing the temporary Windows Security exclusion"
     Remove-MpPreference -ExclusionPath $PSScriptRoot
     #stop the log
     Stop-Transcript
