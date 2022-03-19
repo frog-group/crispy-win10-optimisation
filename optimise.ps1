@@ -4,6 +4,9 @@
 # start logging this script (mainly for debugging)
     Start-Transcript -Path "$PSScriptRoot\optimise.log"
 
+# add win security exclusion
+    Add-MpPreference -ExclusionPath $PSScriptRoot
+
 #load stuff
     #for yes/no prompt
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
@@ -42,27 +45,33 @@
     }#>
 
 # hosts file
-    $HostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    Write-Host "Adding exclusion to hosts file to prevent Windows from blocking this"
-    Add-MpPreference -ExclusionPath $HostsFile
+    $WindowsHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
+    $TempHostsFile = "$PSScriptRoot\hosts"
     $TelemetryHosts = "$PSScriptRoot\TelemetryHosts"
-    # minimal: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-    # maximal: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
-    # ask user if they already have a custom hosts file
-    $ExistingHosts = [System.Windows.Forms.MessageBox]::Show('Do you already have a custom hosts file? If unknown, select "No"' , "Info" , 4)
+    # add AV exclusion 
+    Write-Host "Adding Windows Security exclusion to hosts file to prevent Windows from blocking this"
+    Add-MpPreference -ExclusionPath $WindowsHostsFile
+    #save current hosts file
+    Write-Host "Saving current hosts file to temporary hosts file"
+    Copy-Item -Path $WindowsHostsFile -Destination $TempHostsFile
+    # ask user if they want to keep the contents of their host file
+    $ExistingHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to overwrite your existing hosts file? If you do not know what that means, click "Yes".' , "Info" , 4)
     if ($ExistingHosts -eq 'Yes') {
-        Write-Host "Downloading StevenBlack hosts file and replacing existing hosts file"
-        Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts" -Destination $HostsFile
+        Write-Host "Downloading StevenBlack hosts file and overwriting temporary file"
+        # minimal: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+        # maximal: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+        Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts" -Destination $TempHostsFile
+
     }
-    Write-Host "Appending extra addresses to hosts file"
-    "`n# Windows 10 Telemetry" | Add-Content -Passthru $HostsFile
+    Write-Host "Appending extra addresses to temporary hosts file"
+    "`n# win10-optimisation" | Add-Content -Passthru $TempHostsFile
     foreach ($Domain in Get-Content $TelemetryHosts) {
-        if (-Not (Select-String -Path $HostsFile -Pattern $Domain)) {
-            "0.0.0.0 $Domain" | Add-Content -Passthru $HostsFile
+        if (-Not (Select-String -Path $TempHostsFile -Pattern $Domain)) {
+            "0.0.0.0 $Domain" | Add-Content -Passthru $TempHostsFile
         }
     }
-
-
+    Write-Host "Replacing existing hosts file with temporary one"
+    Move-Item -Path $TempHostsFile -Destination $WindowsHostsFile -Force
 
 # windows firewall
     $TelemetryFirewall = Get-Content "$PSScriptRoot\TelemetryFirewall"
