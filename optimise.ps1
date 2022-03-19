@@ -55,13 +55,18 @@
     Write-Host "Saving current hosts file to temporary hosts file"
     Copy-Item -Path $WindowsHostsFile -Destination $TempHostsFile
     # ask user if they want to keep the contents of their host file
-    $ExistingHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to overwrite your existing hosts file? If you do not know what that means, click "Yes".' , "Info" , 4)
-    if ($ExistingHosts -eq 'Yes') {
-        Write-Host "Downloading StevenBlack hosts file and overwriting temporary file"
-        # minimal: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-        # maximal: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
-        Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts" -Destination $TempHostsFile
-
+    $OverwriteHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to overwrite your existing hosts file? If you do not know what that means, click "Yes".' , "Info" , 4)
+    if ($OverwriteHosts -eq 'Yes') {
+        #clear hosts file
+        Remove-Item -Path $TempHostsFile
+        #ask if they want steven black hosts
+        $UseStevenHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to download and use the Steven Black hosts file? If you do not know what that means, click "No".' , "Info" , 4)
+        if ($UseStevenHosts -eq 'Yes') {
+            Write-Host "Downloading StevenBlack hosts file and overwriting temporary file"
+            # minimal: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+            # maximal: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+            Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" -Destination $TempHostsFile
+        }
     }
     Write-Host "Appending extra addresses to temporary hosts file"
     "`n# win10-optimisation" | Add-Content -Passthru $TempHostsFile
@@ -91,5 +96,9 @@
     }
     # services to set to manual
     #>
-# stop logging end of script
+
+# script cleanup
+    #remove the temp exclusion for the script folder
+    Remove-MpPreference -ExclusionPath $PSScriptRoot
+    #stop the log
     Stop-Transcript
