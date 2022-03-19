@@ -68,6 +68,7 @@
             Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" -Destination $TempHostsFile
         }
     }
+    # add win telemetry addresses to temp hosts file
     Write-Host "Appending extra addresses to temporary hosts file"
     "`n# win10-optimisation" | Add-Content -Passthru $TempHostsFile
     foreach ($Domain in Get-Content $TelemetryHosts) {
@@ -75,6 +76,7 @@
             "0.0.0.0 $Domain" | Add-Content -Passthru $TempHostsFile
         }
     }
+    # replace real hosts file with new temp one
     Write-Host "Replacing existing hosts file with temporary one"
     Move-Item -Path $TempHostsFile -Destination $WindowsHostsFile -Force
 
