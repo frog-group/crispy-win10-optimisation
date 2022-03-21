@@ -1,3 +1,6 @@
 
 *.log
 hosts
+ExistingHosts
+CombinedHosts
+BlackHosts
