@@ -7,7 +7,7 @@ function Convert-HostsFile {
     )
     process{
         Write-Host "TEST - Processing $InFile into $OutFile..."
-        Get-Content $InFile | Add-Content $OutFile
+        #Get-Content $InFile
     }
 }
 #Replacement for 'force-mkdir' to uphold PowerShell conventions. Thanks to raydric, this function should be used instead of 'mkdir -force'. Because 'mkdir -force' doesn't always work well with registry operations.

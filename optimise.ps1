@@ -34,20 +34,25 @@
 
 # hosts file
     $WinHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    $TempHostsFile = "$PSScriptRoot\hosts"
-    $WinTelHosts = "$PSScriptRoot\TelemetryHosts"
-    $ExistingHosts = "$PSScriptRoot\ExistingHosts"
-    $BlackHosts = "$PSScriptRoot\BlackHosts"
-    $CombinedHosts = "$PSScriptRoot\CombinedHosts"
+    $TempHostsFile = "$PSScriptRoot\HostsFiles\hosts"
+    $WinTelHosts = "$PSScriptRoot\HostsFiles\TelemetryHosts"
+    $ExistingHosts = "$PSScriptRoot\HostsFiles\ExistingHosts"
+    $BlackHosts = "$PSScriptRoot\HostsFiles\BlackHosts"
+    $CombinedHosts = "$PSScriptRoot\HostsFiles\CombinedHosts"
+    $DefaultHosts = "$PSScriptRoot\HostsFiles\DefaultHosts"
 
     #add exclusion for the windows hosts file
     Add-MpPreference -ExclusionPath $WinHostsFile
 
     Write-Host "Saving existing hosts file..."
-    Copy-Item -Path $WinHostsFile -Destination $ExistingHosts
+    #Copy-Item -Path $WinHostsFile -Destination $ExistingHosts
 
     Write-Host "Downloading StevenBlack hosts..."
     Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts" -Destination $BlackHosts
+
+    #first add hard coded hosts
+    Write-Host "Add default hosts to combined hosts file..."
+    $DefaultHosts | Add-Content -Path $CombinedHosts
 
     #process the host files into one combined file
     @($BlackHosts,$WinTelHosts,$ExistingHosts) | Convert-HostsFile
