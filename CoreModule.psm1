@@ -1,15 +1,3 @@
-# converts hosts file with comments and adresses to just a list of adresses sans redirects
-function Convert-HostsFile {
-    [CmdletBinding()]
-    param(
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline)][string]$InFile,
-        [Parameter(Position = 1)][string]$OutFile = "$PSScriptRoot\CombinedHosts"
-    )
-    process{
-        Write-Host "TEST - Processing $InFile into $OutFile..."
-        #Get-Content $InFile
-    }
-}
 #Replacement for 'force-mkdir' to uphold PowerShell conventions. Thanks to raydric, this function should be used instead of 'mkdir -force'. Because 'mkdir -force' doesn't always work well with registry operations.
 <#
 function New-FolderForced {
