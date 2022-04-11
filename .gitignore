@@ -4,3 +4,4 @@ hosts
 ExistingHostsFile
 CombinedHostsList
 HostsCompression.cmd
+BlackHostsFile

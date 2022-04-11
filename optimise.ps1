@@ -34,11 +34,11 @@
 
 # hosts file
     $WinHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    $TelemetryHostsList = "$PSScriptRoot\Hosts\TelemetryHostsList"
-    $ExistingHostsFile = "$PSScriptRoot\Hosts\ExistingHostsFile"
-    $ZeroHostsList = "$PSScriptRoot\Hosts\ZeroHostsList"
-    $OtherHostsList = "$PSScriptRoot\Hosts\OtherHostsList"
-    $BlackHostsFile = "$PSScriptRoot\Hosts\BlackHostsFile"
+    $TelemetryHostsList = "$PSScriptRoot\TelemetryHostsList"
+    $ExistingHostsFile = "$PSScriptRoot\ExistingHostsFile"
+    $ZeroHostsList = "$PSScriptRoot\ZeroHostsList"
+    $OtherHostsList = "$PSScriptRoot\OtherHostsList"
+    $BlackHostsFile = "$PSScriptRoot\BlackHostsFile"
 
     #add exclusion for the windows hosts file
     Add-MpPreference -ExclusionPath $WinHostsFile

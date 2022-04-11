@@ -3,7 +3,7 @@ function Make-ZeroHostsList {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)][string]$InFile,
-        [Parameter(Position = 1)][string]$OutFile = "$PSScriptRoot\Hosts\ZeroHostsList"
+        [Parameter(Position = 1)][string]$OutFile = "$PSScriptRoot\ZeroHostsList"
     )
     process{
         Write-Host "Processing $InFile into $OutFile..."
@@ -17,7 +17,7 @@ function Make-OtherHostsList {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, Mandatory, ValueFromPipeline)][string]$InFile,
-        [Parameter(Position = 1)][string]$OutFile = "$PSScriptRoot\Hosts\OtherHostsList"
+        [Parameter(Position = 1)][string]$OutFile = "$PSScriptRoot\OtherHostsList"
     )
     process{
         Write-Host "Processing $InFile into $OutFile..."
