@@ -46,6 +46,9 @@
     Write-Host "Saving existing hosts file..."
     Copy-Item -Path $WinHostsFile -Destination $ExistingHostsFile
 
+    Write-Host "Downloading latest hosts list from this repo..."
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/usbhub95/win10-optimisation/main/TelemetryHostsList" -Destination $TelemetryHostsList
+
     # ask if want black hosts
     $WantBlackHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to use the StevenBlack hosts file? If you do not know what that means, click "No".' , "Info" , 4)
     if ($WantBlackHosts -eq 'Yes') {
@@ -99,8 +102,11 @@
     Move-Item -Path $TempHostsFile -Destination $WindowsHostsFile -Force#>
 
 # windows firewall
+    Write-Host "Downloading latest telemetry firewall rules from this repo..."
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/usbhub95/win10-optimisation/main/TelemetryFirewall" -Destination "$PSScriptRoot\TelemetryFirewall"
+
     $TelemetryFirewall = Get-Content "$PSScriptRoot\TelemetryFirewall"
-    Write-Output "Re-adding firewall rules to block Windows telemetry IPs..."
+    Write-Output "(Re)-adding firewall rules to block Windows telemetry IPs..."
     #delete existing rules from previous uses of this script
     Remove-NetFirewallRule -DisplayName "win10-optimisation Outbound" -ErrorAction SilentlyContinue
     Remove-NetFirewallRule -DisplayName "win10-optimisation Inbound" -ErrorAction SilentlyContinue
