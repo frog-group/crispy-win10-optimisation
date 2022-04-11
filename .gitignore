@@ -1,6 +1,7 @@
 
 *.log
 hosts
-ExistingHosts
-CombinedHosts
+ExistingHostsFile
+CombinedHostsList
 HostsCompression.cmd
+ExistingHostsFile

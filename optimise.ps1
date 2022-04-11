@@ -34,18 +34,29 @@
 
 # hosts file
     $WinHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    $TempHostsFile = "$PSScriptRoot\TempHosts"
-    $WinTelHosts = "$PSScriptRoot\TelemetryHosts"
-    $ExistingHosts = "$PSScriptRoot\ExistingHosts"
-    $CombinedHosts = "$PSScriptRoot\CombinedHosts"
+    $TelemetryHostsList = "$PSScriptRoot\Hosts\TelemetryHostsList"
+    $ExistingHostsFile = "$PSScriptRoot\Hosts\ExistingHostsFile"
+    $ZeroHostsList = "$PSScriptRoot\Hosts\ZeroHostsList"
+    $OtherHostsList = "$PSScriptRoot\Hosts\OtherHostsList"
+    $BlackHostsFile = "$PSScriptRoot\Hosts\BlackHostsFile"
 
     #add exclusion for the windows hosts file
     Add-MpPreference -ExclusionPath $WinHostsFile
 
     Write-Host "Saving existing hosts file..."
-    Copy-Item -Path $WinHostsFile -Destination $ExistingHosts
+    Copy-Item -Path $WinHostsFile -Destination $ExistingHostsFile
 
-    #process the host files into one combined file
+    # ask if want black hosts
+    $WantBlackHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to use the StevenBlack hosts file? If you do not know what that means, click "No".' , "Info" , 4)
+    if ($WantBlackHosts -eq 'Yes') {
+        Write-Host "Downloading StevenBlack hosts file..."
+        Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" -Destination $BlackHostsFile
+    }
+
+    #convert hosts file into null hosts list and other hosts list
+    Write-Host "Getting hostnames from hosts files and compiling into lists..."
+    @($BlackHostsFile, $ExistingHostsFile) | Make-ZeroHostsList
+    #@($BlackHostsFile, $ExistingHostsFile) | Make-OtherHostsList
 
     <#$WindowsHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
     $TempHostsFile = "$PSScriptRoot\hosts"
