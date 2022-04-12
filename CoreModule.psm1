@@ -1,4 +1,4 @@
-# add hosts from a file into another file, dodging comments and duplicates
+# add hosts from a file into another file, dodging comments and duplicates (maybe)
 function Combine-HostsFile {
     [CmdletBinding()]
     param(
@@ -7,7 +7,9 @@ function Combine-HostsFile {
     )
     process{
         Write-Host "Combining $InFile into $OutFile..."
-        Get-Content $InFile | Where-Object{$PSItem -notmatch '^#|^\n'} | Foreach-Object{If(!(Select-String -Path $OutFile -Pattern $PSItem)){Add-Content -Value $PSItem -Path $OutFile}}
+        New-Item -Path $OutFile -ErrorAction SilentlyContinue
+        $CurrentContents = Get-Content $OutFile
+        Get-Content $InFile | Where-Object{$PSItem -match '^[a-zA-Z0-9.:]'} | Where-Object{$PSItem -notin $CurrentContents} | Foreach-Object{Add-Content $PSItem -Path $OutFile}
     }
 }
 

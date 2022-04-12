@@ -34,7 +34,7 @@
 
 # hosts file
     $WinHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    $TelemetryHostsFile = "$PSScriptRoot\TelemetryHostsList"
+    $TelemetryHostsFile = "$PSScriptRoot\TelemetryHostsFile"
     $ExistingHostsFile = "$PSScriptRoot\ExistingHostsFile"
     $BlackHostsFile = "$PSScriptRoot\BlackHostsFile"
     $CombinedHostsFile = "$PSScriptRoot\CombinedHostsFile"
