@@ -34,11 +34,10 @@
 
 # hosts file
     $WinHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
-    $TelemetryHostsList = "$PSScriptRoot\TelemetryHostsList"
+    $TelemetryHostsFile = "$PSScriptRoot\TelemetryHostsList"
     $ExistingHostsFile = "$PSScriptRoot\ExistingHostsFile"
-    $ZeroHostsList = "$PSScriptRoot\ZeroHostsList"
-    $OtherHostsList = "$PSScriptRoot\OtherHostsList"
     $BlackHostsFile = "$PSScriptRoot\BlackHostsFile"
+    $CombinedHostsFile = "$PSScriptRoot\CombinedHostsFile"
 
     #add exclusion for the windows hosts file
     Add-MpPreference -ExclusionPath $WinHostsFile
@@ -47,7 +46,7 @@
     Copy-Item -Path $WinHostsFile -Destination $ExistingHostsFile
 
     Write-Host "Downloading latest hosts list from this repo..."
-    Start-BitsTransfer -Source "https://raw.githubusercontent.com/usbhub95/win10-optimisation/main/TelemetryHostsList" -Destination $TelemetryHostsList
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/usbhub95/win10-optimisation/main/TelemetryHostsFile" -Destination $TelemetryHostsFile
 
     # ask if want black hosts
     $WantBlackHosts = [System.Windows.Forms.MessageBox]::Show('Do you wish to use the StevenBlack hosts file? If you do not know what that means, click "No".' , "Info" , 4)
@@ -56,10 +55,9 @@
         Start-BitsTransfer -Source "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" -Destination $BlackHostsFile
     }
 
-    #convert hosts file into null hosts list and other hosts list
-    Write-Host "Getting hostnames from hosts files and compiling into lists..."
-    @($BlackHostsFile, $ExistingHostsFile) | Make-ZeroHostsList
-    #@($BlackHostsFile, $ExistingHostsFile) | Make-OtherHostsList
+    # make compressed hosts file out of all the hosts
+    Write-Host "Merging all hosts into a single compressed hosts file..."
+    @($BlackHostsFile, $TelemetryHostsFile, $ExistingHostsFile) | Combine-HostsFile -OutFile $CombinedHostsFile
 
     <#$WindowsHostsFile = "$Env:SystemRoot\System32\drivers\etc\hosts"
     $TempHostsFile = "$PSScriptRoot\hosts"
